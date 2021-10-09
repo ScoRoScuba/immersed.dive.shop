@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
@@ -29,6 +28,10 @@ namespace immersed.dive.shop.webapi.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var course = await _courseService.Get(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
 
             return Ok(course);
         }

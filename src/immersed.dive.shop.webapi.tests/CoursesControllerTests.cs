@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces;
@@ -46,6 +47,21 @@ namespace immersed.dive.shop.webapi.tests
             var createdObjectResult = result as CreatedResult;
 
             EndsWith(course.Id.ToString(), createdObjectResult.Location);
+        }
+
+        [Fact]
+        public async Task GET_ReturnsNotFoundWhenIncorrectIdUsed()
+        {
+            var mockService = new Mock<ICourseService>();
+
+            mockService.Setup(g => g.Get(It.IsAny<Guid>())).ReturnsAsync(()=>null);
+
+            var controller = new CoursesController(mockService.Object);
+
+            var result = await controller.Get(Guid.Empty);
+
+            var notFoundResult = result as NotFoundResult;
+            Assert.NotNull(notFoundResult);
         }
     }
 }
