@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac.Extensions.DependencyInjection;
 using immersed.dive.shop.repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -15,6 +16,7 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
         protected override IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder()
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(x =>
                 {
                     x.UseStartup<TStartup>().UseTestServer();

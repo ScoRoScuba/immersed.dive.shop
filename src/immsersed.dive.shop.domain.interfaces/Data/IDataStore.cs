@@ -1,29 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using immersed.dive.shop.model;
 
 namespace immersed.dive.shop.domain.interfaces.Data
 {
     public interface IDataStore<TEntity> where TEntity : class, IEntity
     {
-        int Add(TEntity entity);
+        Task<int> AddAsync(TEntity entity);
 
-        void Remove(TEntity entity);
+        Task RemoveAsync(TEntity entity);
+        Task<IList<TEntity>> GetAllAsync();
+        Task<int> UpdateAsync(TEntity entity);
+        Task<int> CountAsync();
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "This is a method declaration and not Property")]
-        IList<TEntity> GetAll();
+        Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
 
-        void Update(TEntity entity);
+        Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate);
 
-        int Count();
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Design Choice for Generics")]
-        TEntity Find(Expression<Func<TEntity, bool>> predicate);
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Generic Interface Declaration")]
-        IList<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
-
-        IList<TEntity> Match(ICriteria<TEntity> criteria);
+        Task<IList<TEntity>> MatchAsync(ICriteria<TEntity> criteria);
     }
 }

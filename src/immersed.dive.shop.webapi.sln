@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "immersed.dive.shop.domain.i
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TEsts", "TEsts", "{973089DA-2BAD-4D5C-9EEA-E2A2419F3D9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.diveshop.intergration.tests", "immersed.diveshop.intergration.tests\immersed.diveshop.intergration.tests.csproj", "{A32F2422-BAD9-41BE-B9FA-99401FECB06D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "immersed.diveshop.intergration.tests", "immersed.diveshop.intergration.tests\immersed.diveshop.intergration.tests.csproj", "{A32F2422-BAD9-41BE-B9FA-99401FECB06D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.application", "immersed.dive.shop.application\immersed.dive.shop.application.csproj", "{48C49055-93F0-477C-A5DB-F0E21EC8EBF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{A32F2422-BAD9-41BE-B9FA-99401FECB06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A32F2422-BAD9-41BE-B9FA-99401FECB06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A32F2422-BAD9-41BE-B9FA-99401FECB06D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48C49055-93F0-477C-A5DB-F0E21EC8EBF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C49055-93F0-477C-A5DB-F0E21EC8EBF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48C49055-93F0-477C-A5DB-F0E21EC8EBF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48C49055-93F0-477C-A5DB-F0E21EC8EBF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

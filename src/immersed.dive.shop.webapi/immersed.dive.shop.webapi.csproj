@@ -7,12 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\immersed.dive.shop.model\immersed.dive.shop.model.csproj" />
+    <ProjectReference Include="..\immsersed.dive.shop.domain.interfaces\immersed.dive.shop.domain.interfaces.csproj" />
   </ItemGroup>
 
 </Project>

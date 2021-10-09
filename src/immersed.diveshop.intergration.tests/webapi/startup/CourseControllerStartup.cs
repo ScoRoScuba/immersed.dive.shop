@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Autofac;
+using immersed.dive.shop.application.Courses;
+using immersed.dive.shop.domain.interfaces;
+using immersed.dive.shop.repository;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +16,12 @@ namespace immersed.diveshop.intergration.tests.webapi.startup
         public CourseControllerStartup(IConfiguration configuration)
         {
             _configuration = configuration;
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterType<CourseService>().AsImplementedInterfaces();
+            builder.RegisterType<CoursesStore>().AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

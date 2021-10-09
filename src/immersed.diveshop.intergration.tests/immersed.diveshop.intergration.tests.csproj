@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.10" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
@@ -16,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\immersed.dive.shop.application\immersed.dive.shop.application.csproj" />
     <ProjectReference Include="..\immersed.dive.shop.model\immersed.dive.shop.model.csproj" />
     <ProjectReference Include="..\immersed.dive.shop.repository\immersed.dive.shop.repository.csproj" />
     <ProjectReference Include="..\immersed.dive.shop.webapi\immersed.dive.shop.webapi.csproj" />
