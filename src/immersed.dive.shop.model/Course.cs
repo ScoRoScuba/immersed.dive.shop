@@ -6,7 +6,7 @@ namespace immersed.dive.shop.model
     {
         public Course()
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
         }
 
         public Guid Id { get; set; }

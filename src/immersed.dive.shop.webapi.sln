@@ -5,13 +5,17 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "immersed.dive.shop.webapi", "immersed.dive.shop.webapi\immersed.dive.shop.webapi.csproj", "{C50D808F-D984-4174-BB63-0727E1639307}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.webapi.tests", "immersed.dive.shop.webapi.tests\immersed.dive.shop.webapi.tests.csproj", "{5079DBCA-CA95-482F-B7F3-F20E9E4B0641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "immersed.dive.shop.webapi.tests", "immersed.dive.shop.webapi.tests\immersed.dive.shop.webapi.tests.csproj", "{5079DBCA-CA95-482F-B7F3-F20E9E4B0641}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.model", "immersed.dive.shop.model\immersed.dive.shop.model.csproj", "{8635AD30-DD54-40E9-AD07-2A71206E54DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "immersed.dive.shop.model", "immersed.dive.shop.model\immersed.dive.shop.model.csproj", "{8635AD30-DD54-40E9-AD07-2A71206E54DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.repository", "immersed.dive.shop.repository\immersed.dive.shop.repository.csproj", "{A9C54237-FF4B-4889-83BD-43876DC47F60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "immersed.dive.shop.repository", "immersed.dive.shop.repository\immersed.dive.shop.repository.csproj", "{A9C54237-FF4B-4889-83BD-43876DC47F60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.domain.interfaces", "immsersed.dive.shop.domain.interfaces\immersed.dive.shop.domain.interfaces.csproj", "{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "immersed.dive.shop.domain.interfaces", "immsersed.dive.shop.domain.interfaces\immersed.dive.shop.domain.interfaces.csproj", "{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TEsts", "TEsts", "{973089DA-2BAD-4D5C-9EEA-E2A2419F3D9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.diveshop.intergration.tests", "immersed.diveshop.intergration.tests\immersed.diveshop.intergration.tests.csproj", "{A32F2422-BAD9-41BE-B9FA-99401FECB06D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,17 @@ Global
 		{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A32F2422-BAD9-41BE-B9FA-99401FECB06D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A32F2422-BAD9-41BE-B9FA-99401FECB06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A32F2422-BAD9-41BE-B9FA-99401FECB06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A32F2422-BAD9-41BE-B9FA-99401FECB06D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5079DBCA-CA95-482F-B7F3-F20E9E4B0641} = {973089DA-2BAD-4D5C-9EEA-E2A2419F3D9D}
+		{A32F2422-BAD9-41BE-B9FA-99401FECB06D} = {973089DA-2BAD-4D5C-9EEA-E2A2419F3D9D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85999018-9D55-4E9B-928F-022C5B665804}

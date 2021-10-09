@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace immersed.dive.shop.webapi.Controllers
 {
     [ApiController]
-    [Route("{controller}")]
+    [Route("[controller]")]
     public class CoursesController :  ControllerBase
     {
         public CoursesController() { }
@@ -24,9 +24,19 @@ namespace immersed.dive.shop.webapi.Controllers
             return Ok(list);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var course = new Course()
+                {Id = id};
+
+            return Ok(course);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Post(Course course)
         {
-            return Created( new Uri($"/courses/{course.Id}", UriKind.Relative), null);
+            return Created(new Uri($"/courses/{course.Id}", UriKind.Relative), null);
         }
     }
 }

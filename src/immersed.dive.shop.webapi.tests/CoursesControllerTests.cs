@@ -22,7 +22,6 @@ namespace immersed.dive.shop.webapi.tests
             _ = IsAssignableFrom<IList<Course>>(okObjectResult.Value);
         }
 
-
         [Fact]
         public async Task POST_ReturnsAcceptedResultWithUrl()
         {
