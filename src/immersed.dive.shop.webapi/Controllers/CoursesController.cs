@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using immersed.dive.shop.model;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,11 @@ namespace immersed.dive.shop.webapi.Controllers
             };
 
             return Ok(list);
+        }
+
+        public async Task<IActionResult> Post(Course course)
+        {
+            return Created( new Uri($"/courses/{course.Id}", UriKind.Relative), null);
         }
     }
 }

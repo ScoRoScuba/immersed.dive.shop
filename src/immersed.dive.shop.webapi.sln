@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.webapi.t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.model", "immersed.dive.shop.model\immersed.dive.shop.model.csproj", "{8635AD30-DD54-40E9-AD07-2A71206E54DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.repository", "immersed.dive.shop.repository\immersed.dive.shop.repository.csproj", "{A9C54237-FF4B-4889-83BD-43876DC47F60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "immersed.dive.shop.domain.interfaces", "immsersed.dive.shop.domain.interfaces\immersed.dive.shop.domain.interfaces.csproj", "{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{8635AD30-DD54-40E9-AD07-2A71206E54DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8635AD30-DD54-40E9-AD07-2A71206E54DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8635AD30-DD54-40E9-AD07-2A71206E54DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9C54237-FF4B-4889-83BD-43876DC47F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9C54237-FF4B-4889-83BD-43876DC47F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9C54237-FF4B-4889-83BD-43876DC47F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9C54237-FF4B-4889-83BD-43876DC47F60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAE6B654-C3E2-4F0A-AF57-E7A629B19139}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
