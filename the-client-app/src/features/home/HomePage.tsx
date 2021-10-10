@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Container, Header, Segment, Image, Button, Divider } from 'semantic-ui-react';
+import { Container, Header, Segment, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../app/stores/store';
 
@@ -16,7 +16,7 @@ export default observer( function HomePage() {
                 </Header>
                 <>
                     <Header as='h2' inverted content='Welcome to the Dive School' />
-                        <Button as={Link} to='/' size='huge' inverted>
+                        <Button as={Link} to='/dashboard' size='huge' inverted>
                             Go to the Dive School;
                         </Button>                
                 </>

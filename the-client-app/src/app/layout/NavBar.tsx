@@ -1,8 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Button, Container, Menu, Image, Dropdown } from "semantic-ui-react";
-import { useStore } from "../stores/store";
+import { NavLink } from "react-router-dom";
+import { Container, Menu} from "semantic-ui-react";
 
 export default observer( function NavBar(){
 
@@ -11,8 +10,8 @@ export default observer( function NavBar(){
             <Container>
                 <Menu.Item as={NavLink} to='/' exact header>
                     <img src="/assets/logo.png" alt="logo" style={{marginRight: '10px'}}/>
-                    DIve School
                 </Menu.Item>
+                <Menu.Item as={NavLink} to='/dashboard' name='Dashboard'/>
                 <Menu.Item as={NavLink} to='/courses' name='Courses'/>
 
                 {/* <Menu.Item>

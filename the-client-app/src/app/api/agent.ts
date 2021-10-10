@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import Course from '../models/course';
+import {Course} from '../models/course';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -22,12 +22,12 @@ const requests = {
     del: <T> (url:string)=>axios.delete<T>(url).then(responseBody)
 }
 
-
 const Courses ={ 
     list : () => requests.get<Course[]>('/Courses'),    
 }
 
-
 const agent = {
     Courses,
 }
+
+export default agent;

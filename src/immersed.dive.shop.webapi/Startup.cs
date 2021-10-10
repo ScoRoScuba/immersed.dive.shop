@@ -25,6 +25,16 @@ namespace immersed.dive.shop.webapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "immersed.dive.shop.webapi", Version = "v1" });
             });
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy => policy
+                    .WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .WithExposedHeaders("WWW-Authenticate")
+                    .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +50,8 @@ namespace immersed.dive.shop.webapi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 

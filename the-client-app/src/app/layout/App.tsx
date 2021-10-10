@@ -1,13 +1,16 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import './styles.css';
 import NavBar from './NavBar';
 import {Container, Header} from 'semantic-ui-react';
 import { Route, Switch } from 'react-router';
 import HomePage from '../../features/home/HomePage';
 import CoursesDashboard from '../../features/courses/CoursesDashboard';
+import Dashboard from '../../features/dashboard/Dashboard';
+import agent from '../api/agent';
+import { userInfo } from 'os';
+import { useStore } from '../stores/store';
 
 export default function App() {
-
         return(
             <Fragment>
                 <Header as='h2' content='Immersed'/>
@@ -19,7 +22,8 @@ export default function App() {
                         <Fragment>
                         <NavBar/>
                         <Container style = {{marginTop: '7em'}}>
-                            <Switch>          
+                            <Switch>
+                            <Route exact path='/dashboard' component={Dashboard}/>              
                             <Route exact path='/courses' component={CoursesDashboard}/>
                             {/* <Route path='/activities/:id' component={ActivityDetails}/>
                             <Route key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm}/>
