@@ -28,9 +28,9 @@ namespace immersed.dive.shop.repository
             throw new NotImplementedException();
         }
 
-        public Task<IList<Course>> GetAllAsync()
+        public async Task<IList<Course>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dataContext.Courses.AsQueryable().ToListAsync();
         }
 
         public Task<int> UpdateAsync(Course entity)

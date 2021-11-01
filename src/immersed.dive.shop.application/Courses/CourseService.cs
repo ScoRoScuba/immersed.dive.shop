@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
@@ -12,7 +11,7 @@ namespace immersed.dive.shop.application.Courses
     {
         private readonly IDataStore<Course> _courseDataStore;
 
-        public CourseService( IDataStore<Course> courseDataStore)
+        public CourseService(IDataStore<Course> courseDataStore)
         {
             _courseDataStore = courseDataStore;
         }

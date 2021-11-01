@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace immersed.diveshop.intergration.tests.webapi
         public async Task CanGetCourseOnceCreated()
         {
             var postCourse = new Course();
-            
+
             var jsonPayload = JsonConvert.SerializeObject(postCourse);
 
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
@@ -42,5 +43,15 @@ namespace immersed.diveshop.intergration.tests.webapi
             Assert.True(postCourse.Id == getCourse.Id);
         }
 
+        [Fact]
+        public async Task Gets404ResultWhenNotFound()
+        {
+            var candidateGuid = Guid.NewGuid();
+
+            var courseResponse = await _client.GetAsync($"/get/{candidateGuid}");
+            Assert.False(courseResponse.IsSuccessStatusCode);
+
+            Assert.True(courseResponse.StatusCode == HttpStatusCode.NotFound);
+        }
     }
 }

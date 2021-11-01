@@ -1,4 +1,5 @@
-﻿using immersed.dive.shop.model;
+﻿using immersed.dive.shop.domain.interfaces;
+using immersed.dive.shop.model;
 using Microsoft.EntityFrameworkCore;
 
 namespace immersed.dive.shop.repository
@@ -10,11 +11,13 @@ namespace immersed.dive.shop.repository
             
         }
 
-        public DbSet<Course> Courses { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Course>(x => x.HasKey(k => k.Id));
         }
+
+        public DbSet<Course> Courses { get; set; }
     }
 }

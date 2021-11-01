@@ -1,9 +1,14 @@
+using Autofac;
+using immersed.dive.shop.repository;
+using immersed.dive.shop.webapi.Externals;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 namespace immersed.dive.shop.webapi
 {
@@ -17,9 +22,22 @@ namespace immersed.dive.shop.webapi
             _configuration = configuration;
         }
 
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.Register(c => Log.Logger).AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterServices(_configuration);
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DiveShopDBContext>(options =>
+            {
+                var connectionString = _configuration.GetConnectionString("DefaultConnectionString");
+                options.UseSqlServer(connectionString);
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
