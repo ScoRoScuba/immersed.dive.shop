@@ -19,5 +19,6 @@ namespace immersed.dive.shop.repository
         }
 
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Person> Persons { get; set; }
     }
 }

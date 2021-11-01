@@ -1,11 +1,10 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
+using immersed.dive.shop.application;
 using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.repository;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace immersed.dive.shop.webapi.Externals
+namespace immersed.dive.shop.webapi.Extensions.Startup
 {
     public static class DependancyRegister  
     {
@@ -13,6 +12,9 @@ namespace immersed.dive.shop.webapi.Externals
         {
             containerBuilder.RegisterType<CoursesStore>().AsImplementedInterfaces();
             containerBuilder.RegisterType<CourseService>().AsImplementedInterfaces();
+
+            containerBuilder.RegisterType<PersonStore>().AsImplementedInterfaces();
+            containerBuilder.RegisterType<PersonService>().AsImplementedInterfaces();
 
             return containerBuilder;
         }

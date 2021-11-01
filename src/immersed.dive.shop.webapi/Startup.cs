@@ -1,6 +1,6 @@
 using Autofac;
 using immersed.dive.shop.repository;
-using immersed.dive.shop.webapi.Externals;
+using immersed.dive.shop.webapi.Extensions.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
