@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using immersed.dive.shop.application;
 using immersed.dive.shop.application.Courses;
+using immersed.dive.shop.application.Person;
 using immersed.dive.shop.repository;
 using Microsoft.Extensions.Configuration;
 

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using immersed.dive.shop.application;
+using immersed.dive.shop.application.Person;
 using immersed.dive.shop.repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

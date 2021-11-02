@@ -43,5 +43,14 @@ namespace immersed.dive.shop.webapi.Controllers
 
             return Created(new Uri($"/courses/{course.Id}", UriKind.Relative), null);
         }
+
+        [HttpPost]
+        [Route("{courseId:guid}/{personId:guid}")]
+        public async Task<IActionResult> AddPersonToCourse(Guid courseId, Guid personId)
+        {
+            var result = await _courseService.AddPersonToCourse(courseId, personId);
+
+            return Ok(result);
+        }
     }
 }

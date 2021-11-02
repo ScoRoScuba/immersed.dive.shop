@@ -1,33 +1,31 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
-using immersed.dive.shop.model;
 
-namespace immersed.dive.shop.application
+namespace immersed.dive.shop.application.Person
 {
     public class PersonService : IPersonService
     {
-        private IDataStore<Person> _personDataStore;
+        private IDataStore<model.Person> _personDataStore;
 
-        public PersonService(IDataStore<Person> personDataStore)
+        public PersonService(IDataStore<model.Person> personDataStore)
         {
             _personDataStore = personDataStore;
         }
 
-        public async Task<Person> Get(Guid id)
+        public async Task<model.Person> Get(Guid id)
         {
             return await _personDataStore.FindAsync(c => c.Id == id);
         }
 
-        public async Task Add(Person person)
+        public async Task Add(model.Person person)
         {
             await _personDataStore.AddAsync(person);
         }
 
-        public async Task<IList<Person>> GetAll()
+        public async Task<IList<model.Person>> GetAll()
         {
             return await _personDataStore.GetAllAsync();
         }

@@ -33,9 +33,12 @@ namespace immersed.dive.shop.repository
             return await _dataContext.Courses.AsQueryable().ToListAsync();
         }
 
-        public Task<int> UpdateAsync(Course entity)
+        public async Task<int> UpdateAsync(Course entity)
         {
-            throw new NotImplementedException();
+            var result = _dataContext.Courses.Update(entity);
+            var count = await _dataContext.SaveChangesAsync();
+
+            return count;
         }
 
         public Task<int> CountAsync()

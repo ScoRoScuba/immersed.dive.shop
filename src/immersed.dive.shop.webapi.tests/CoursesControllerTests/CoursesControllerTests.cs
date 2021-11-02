@@ -9,7 +9,7 @@ using Moq;
 using Xunit;
 using static Xunit.Assert;
 
-namespace immersed.dive.shop.webapi.tests
+namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
 {
     public class CoursesControllerTests
     {
@@ -62,6 +62,22 @@ namespace immersed.dive.shop.webapi.tests
 
             var notFoundResult = result as NotFoundResult;
             Assert.NotNull(notFoundResult);
+        }
+
+        [Fact]
+        public async Task POST_AddingPersonToCourseReturnsNumberOnCourse()
+        {
+            var mockService = new Mock<ICourseService>();
+
+            mockService.Setup(g => g.AddPersonToCourse(It.IsAny<Guid>(), It.IsAny<Guid>())).ReturnsAsync(() => 1);
+
+            var controller = new CoursesController(mockService.Object);
+
+            var result = await controller.AddPersonToCourse(Guid.NewGuid(), Guid.NewGuid());
+
+            var createdObjectResult = result as OkObjectResult;
+
+            Assert.True((int)createdObjectResult.Value == 1);
         }
     }
 }
