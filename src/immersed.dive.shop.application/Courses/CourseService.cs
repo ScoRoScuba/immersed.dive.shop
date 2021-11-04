@@ -44,7 +44,9 @@ namespace immersed.dive.shop.application.Courses
                 CourseId = courseId,
                 Course = course,
                 ParticipantId = personId,
-                Participant = person
+                Participant = person,
+                Live = true,
+                DateCreated = DateTime.UtcNow
             });
 
             var result = await _courseDataStore.UpdateAsync(course);

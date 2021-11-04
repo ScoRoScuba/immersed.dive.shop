@@ -18,6 +18,9 @@ namespace immersed.dive.shop.repository
 
         public async Task<int> AddAsync(Person entity)
         {
+            entity.DateCreated = DateTime.UtcNow;
+            entity.Live = true;
+
             var result = await _dataContext.AddAsync(entity);
             var count = await _dataContext.SaveChangesAsync();
             return count;
@@ -25,6 +28,7 @@ namespace immersed.dive.shop.repository
 
         public Task RemoveAsync(Person entity)
         {
+            entity.Live = false;
             throw new NotImplementedException();
         }
 
@@ -35,6 +39,7 @@ namespace immersed.dive.shop.repository
 
         public Task<int> UpdateAsync(Person entity)
         {
+            entity.LastUpdated = DateTime.UtcNow;
             throw new NotImplementedException();
         }
 

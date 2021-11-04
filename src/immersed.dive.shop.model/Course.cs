@@ -18,5 +18,8 @@ namespace immersed.dive.shop.model
 
         public List<CourseParticipant> Participants { get; set; }
 
+        public DateTime DateCreated { get; set; }
+        public DateTime LastUpdated { get; set; }
+        public bool Live { get; set; }
     }
 }
