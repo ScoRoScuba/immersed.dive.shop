@@ -6,8 +6,10 @@ using immersed.dive.shop.repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 namespace immersed.diveshop.intergration.tests.webapi.startup
 {
@@ -26,6 +28,8 @@ namespace immersed.diveshop.intergration.tests.webapi.startup
 
             builder.RegisterType<PersonService>().AsImplementedInterfaces();
             builder.RegisterType<PersonStore>().AsImplementedInterfaces();
+
+            builder.RegisterInstance(new Mock<ICourseParticipantService>().Object).AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
