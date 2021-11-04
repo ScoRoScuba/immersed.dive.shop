@@ -9,13 +9,14 @@ namespace immersed.dive.shop.model
         {
             Id = Guid.NewGuid();
 
-            People = new List<Person>();
+            Participants = new List<CourseParticipant>();
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
 
-        public List<Person> People { get; set; }
+        public List<CourseParticipant> Participants { get; set; }
+
     }
 }

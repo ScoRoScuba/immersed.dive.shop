@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace immersed.dive.shop.model
 {
@@ -7,6 +9,7 @@ namespace immersed.dive.shop.model
         public Person()
         {
             Id = Guid.NewGuid();
+            Courses = new List<CourseParticipant>();
         }
 
         public Guid Id { get; set; }
@@ -18,5 +21,7 @@ namespace immersed.dive.shop.model
         public DateTime DateOfBirth { get; set; }
         public Sex Sex { get; set; }
         public string IdentifiesAs { get; set; }
+
+        public List<CourseParticipant> Courses { get; set; }
     }
 }

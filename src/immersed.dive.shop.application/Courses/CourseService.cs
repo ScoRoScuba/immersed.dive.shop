@@ -39,11 +39,17 @@ namespace immersed.dive.shop.application.Courses
 
             var person = await _personService.Get(personId);
 
-            course.People.Add(person);
+            course.Participants.Add(new CourseParticipant
+            {
+                CourseId = courseId,
+                Course = course,
+                ParticipantId = personId,
+                Participant = person
+            });
 
             var result = await _courseDataStore.UpdateAsync(course);
 
-            return course.People.Count;
+            return course.Participants.Count;
         }
     }
 }
