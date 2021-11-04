@@ -15,6 +15,7 @@ namespace immersed.dive.shop.model
         public Guid Id { get; set; }
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
+        public string Description { get; set; }
 
         public List<CourseParticipant> Participants { get; set; }
 

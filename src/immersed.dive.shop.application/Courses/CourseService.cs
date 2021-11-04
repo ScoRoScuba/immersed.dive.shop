@@ -11,11 +11,13 @@ namespace immersed.dive.shop.application.Courses
     {
         private readonly IDataStore<Course> _courseDataStore;
         private readonly IPersonService _personService;
+        private readonly ICourseParticipantService _courseParticipantService;
 
-        public CourseService(IDataStore<Course> courseDataStore, IPersonService personService)
+        public CourseService(IDataStore<Course> courseDataStore, IPersonService personService, ICourseParticipantService courseParticipantService)
         {
             _courseDataStore = courseDataStore;
             _personService = personService;
+            _courseParticipantService = courseParticipantService;
         }
 
         public async Task<Course> Get(Guid id)
@@ -53,5 +55,13 @@ namespace immersed.dive.shop.application.Courses
 
             return course.Participants.Count;
         }
+
+        public async Task<List<CourseParticipant>> GetParticipants(Guid courseId)
+        {
+            var result = await _courseParticipantService.GetCourseParticipants(courseId);
+
+            return result;
+        }
     }
+
 }

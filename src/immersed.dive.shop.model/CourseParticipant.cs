@@ -4,6 +4,11 @@ namespace immersed.dive.shop.model
 {
     public class CourseParticipant : IEntity
     {
+        public CourseParticipant()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public Guid Id { get; set; }
 
         public Guid CourseId { get; set; }
