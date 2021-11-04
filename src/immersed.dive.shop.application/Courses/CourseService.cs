@@ -33,7 +33,7 @@ namespace immersed.dive.shop.application.Courses
             return await _courseDataStore.GetAllAsync();
         }
 
-        public async Task<int> AddPersonToCourse(Guid courseId, Guid personId)
+        public async Task<int> AddParticipant(Guid courseId, Guid personId)
         {
             var course = await _courseDataStore.FindAsync(c => c.Id == courseId);
 

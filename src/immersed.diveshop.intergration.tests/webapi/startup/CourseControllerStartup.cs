@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using immersed.dive.shop.application.Courses;
+using immersed.dive.shop.application.Person;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.repository;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +23,9 @@ namespace immersed.diveshop.intergration.tests.webapi.startup
         {
             builder.RegisterType<CourseService>().AsImplementedInterfaces();
             builder.RegisterType<CoursesStore>().AsImplementedInterfaces();
+
+            builder.RegisterType<PersonService>().AsImplementedInterfaces();
+            builder.RegisterType<PersonStore>().AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

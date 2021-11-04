@@ -13,6 +13,6 @@ namespace immersed.dive.shop.domain.interfaces
         Task<IList<Course>> GetAll();
 
 
-        Task<int> AddPersonToCourse(Guid courseId, Guid person);
+        Task<int> AddParticipant(Guid courseId, Guid person);
     }
 }

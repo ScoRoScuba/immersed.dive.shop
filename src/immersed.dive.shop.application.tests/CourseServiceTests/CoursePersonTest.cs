@@ -13,7 +13,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
     public class CoursePersonTest
     {
         [Fact]
-        public async Task PersonIsAddedToCourse()
+        public async Task ParticipantIsAddedToCourse()
         {
             var mockDataStore = new Mock<IDataStore<Course>>();
             var mockPersonService = new Mock<IPersonService>();
@@ -24,7 +24,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
 
             var service = new CourseService(mockDataStore.Object, mockPersonService.Object);
 
-            var result = await service.AddPersonToCourse(Guid.NewGuid(), Guid.NewGuid());
+            var result = await service.AddParticipant(Guid.NewGuid(), Guid.NewGuid());
 
             Assert.False(result == -1);
         }
