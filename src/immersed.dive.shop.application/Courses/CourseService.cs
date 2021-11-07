@@ -56,7 +56,7 @@ namespace immersed.dive.shop.application.Courses
             return course.Participants.Count;
         }
 
-        public async Task<List<CourseParticipant>> GetParticipants(Guid courseId)
+        public async Task<List<model.Person>> GetParticipants(Guid courseId)
         {
             var result = await _courseParticipantService.GetCourseParticipants(courseId);
 

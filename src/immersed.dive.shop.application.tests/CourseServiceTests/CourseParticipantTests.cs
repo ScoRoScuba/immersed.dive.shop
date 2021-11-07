@@ -38,7 +38,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
             var mockPersonService = new Mock<IPersonService>();
             var mockCourseParticipantService = new Mock<ICourseParticipantService>();
 
-            mockCourseParticipantService.Setup(cp => cp.GetCourseParticipants(It.IsAny<Guid>())).ReturnsAsync(new List<CourseParticipant>{new CourseParticipant()});
+            mockCourseParticipantService.Setup(cp => cp.GetCourseParticipants(It.IsAny<Guid>())).ReturnsAsync(new List<model.Person>{new model.Person()});
 
             var service = new CourseService(mockCourseDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object);
 
