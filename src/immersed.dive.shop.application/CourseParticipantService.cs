@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
+using immersed.dive.shop.repository;
 
 namespace immersed.dive.shop.application
 {
@@ -19,7 +20,8 @@ namespace immersed.dive.shop.application
 
         public async Task<List<model.Person>> GetCourseParticipants(Guid courseId)
         {
-            var result = await _courseParticipantDataStore.FindAllAsync(cp => cp.CourseId == courseId);
+
+            var result = await _courseParticipantDataStore.MatchAsync(new CourseParticipantsQuery(courseId));
 
             if( result.Any()){
                 return result.Select(cp => cp.Participant).ToList();

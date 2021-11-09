@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
+using immersed.dive.shop.webapi.WebDtos;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper.QueryableExtensions;
 
 namespace immersed.dive.shop.webapi.Controllers
 {
@@ -11,9 +15,12 @@ namespace immersed.dive.shop.webapi.Controllers
     public class CoursesController :  ControllerBase
     {
         private readonly ICourseService _courseService;
-        public CoursesController(ICourseService courseService)
+        private readonly IMapper _mapper;
+
+        public CoursesController(ICourseService courseService, IMapper mapper)
         {
             _courseService = courseService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -45,12 +52,24 @@ namespace immersed.dive.shop.webapi.Controllers
         }
 
         [HttpPost]
-        [Route("{courseId:guid}/participant/{personId:guid}")]
+        [Route("{courseId:guid}/participants/{personId:guid}")]
         public async Task<IActionResult> AddParticipantToCourse(Guid courseId, Guid personId)
         {
             var result = await _courseService.AddParticipant(courseId, personId);
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{courseId:guid}/participants")]
+        public async Task<OkObjectResult> GetCourseParticipants(Guid courseId)
+        {
+            var result = await _courseService
+                .GetParticipants(courseId);
+
+            var dtoResult = _mapper.Map<IList<Person>, IList<PersonDto>>(result);
+
+            return Ok(dtoResult);
         }
     }
 }

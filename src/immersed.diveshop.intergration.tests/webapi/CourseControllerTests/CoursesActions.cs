@@ -48,7 +48,7 @@ namespace immersed.diveshop.intergration.tests.webapi
         {
             var candidateGuid = Guid.NewGuid();
 
-            var courseResponse = await _client.GetAsync($"/get/{candidateGuid}");
+            var courseResponse = await _client.GetAsync($"/courses/{candidateGuid}");
             Assert.False(courseResponse.IsSuccessStatusCode);
 
             Assert.True(courseResponse.StatusCode == HttpStatusCode.NotFound);

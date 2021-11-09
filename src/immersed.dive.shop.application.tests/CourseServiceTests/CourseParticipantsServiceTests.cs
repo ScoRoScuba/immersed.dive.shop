@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using Moq;
@@ -28,11 +24,6 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
                 {
                     Course = new Course(),
                     Participant = new model.Person()
-                },
-                new CourseParticipant()
-                {
-                    Course = new Course(),
-                    Participant = new model.Person()
                 }
             };
 
@@ -41,11 +32,9 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
             list[1].CourseId = courseId;
             list[1].Course.Id = courseId;
 
-            mockDataStore.Setup(d => d.FindAllAsync(It.IsAny<Expression<Func<CourseParticipant, bool>>>())).ReturnsAsync(
-                (Expression<Func<CourseParticipant, bool>> predicate) => list.FindAll(predicate.Compile().Invoke));
-
+            mockDataStore.Setup(d => d.MatchAsync(It.IsAny<ICriteria<CourseParticipant>>())).ReturnsAsync(list);
+            
             var courseParticipantService = new CourseParticipantService(mockDataStore.Object);
-
 
             var result = await courseParticipantService.GetCourseParticipants(courseId);
 

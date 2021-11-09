@@ -1,5 +1,6 @@
 using Autofac;
 using immersed.dive.shop.repository;
+using immersed.dive.shop.webapi.Core;
 using immersed.dive.shop.webapi.Extensions.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,8 @@ namespace immersed.dive.shop.webapi
                 var connectionString = _configuration.GetConnectionString("DefaultConnectionString");
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

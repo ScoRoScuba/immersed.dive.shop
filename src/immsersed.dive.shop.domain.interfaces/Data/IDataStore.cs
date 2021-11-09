@@ -17,8 +17,6 @@ namespace immersed.dive.shop.domain.interfaces.Data
 
         Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate);
-
         Task<IList<TEntity>> MatchAsync(ICriteria<TEntity> criteria);
     }
 }

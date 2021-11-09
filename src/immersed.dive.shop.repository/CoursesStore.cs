@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces.Data;
@@ -55,11 +56,6 @@ namespace immersed.dive.shop.repository
         public async Task<Course> FindAsync(Expression<Func<Course, bool>> predicate)
         {
             return await _dataContext.Courses.SingleOrDefaultAsync(predicate);
-        }
-
-        public Task<IList<Course>> FindAllAsync(Expression<Func<Course, bool>> predicate)
-        {
-            throw new NotImplementedException();
         }
 
         public Task<IList<Course>> MatchAsync(ICriteria<Course> criteria)

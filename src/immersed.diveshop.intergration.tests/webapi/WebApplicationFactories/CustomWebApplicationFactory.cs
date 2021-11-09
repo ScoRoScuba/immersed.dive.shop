@@ -54,8 +54,8 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
 
                     try
                     {
-                        // Seed the database with some specific test data.
-                        //SeedData.PopulateTestData(appDb);
+
+
                     }
                     catch (Exception ex)
                     {

@@ -1,8 +1,10 @@
 ﻿using Autofac;
+using immersed.dive.shop.application;
 using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.application.Person;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.repository;
+using immersed.dive.shop.webapi.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -29,13 +31,17 @@ namespace immersed.diveshop.intergration.tests.webapi.startup
             builder.RegisterType<PersonService>().AsImplementedInterfaces();
             builder.RegisterType<PersonStore>().AsImplementedInterfaces();
 
-            builder.RegisterInstance(new Mock<ICourseParticipantService>().Object).AsImplementedInterfaces();
+            builder.RegisterType<CourseParticipantService>().AsImplementedInterfaces();
+            builder.RegisterType<CourseParticipantStore>().AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var assembly = typeof(immersed.dive.shop.webapi.Controllers.CoursesController).Assembly;
+
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
             services.AddControllers()
                 .PartManager
                 .ApplicationParts

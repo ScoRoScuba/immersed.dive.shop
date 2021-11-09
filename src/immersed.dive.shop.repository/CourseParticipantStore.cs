@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces.Data;
@@ -8,15 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace immersed.dive.shop.repository
 {
-    public class PersonStore : IDataStore<Person>
+    public class CourseParticipantStore : IDataStore<CourseParticipant>
     {
         private readonly DiveShopDBContext _dataContext;
-        public PersonStore(DiveShopDBContext dataContext)
+
+        public CourseParticipantStore(DiveShopDBContext dataContext)
         {
             _dataContext = dataContext;
         }
 
-        public async Task<int> AddAsync(Person entity)
+        public async Task<int> AddAsync(CourseParticipant entity)
         {
             entity.DateCreated = DateTime.UtcNow;
             entity.Live = true;
@@ -26,20 +28,18 @@ namespace immersed.dive.shop.repository
             return count;
         }
 
-        public Task RemoveAsync(Person entity)
+        public Task RemoveAsync(CourseParticipant entity)
         {
-            entity.Live = false;
             throw new NotImplementedException();
         }
 
-        public async Task<IList<Person>> GetAllAsync()
+        public async Task<IList<CourseParticipant>> GetAllAsync()
         {
-            return await _dataContext.Persons.AsQueryable().ToListAsync();
+            return await _dataContext.CourseParticipants.ToListAsync();
         }
 
-        public Task<int> UpdateAsync(Person entity)
+        public Task<int> UpdateAsync(CourseParticipant entity)
         {
-            entity.LastUpdated = DateTime.UtcNow;
             throw new NotImplementedException();
         }
 
@@ -48,14 +48,14 @@ namespace immersed.dive.shop.repository
             throw new NotImplementedException();
         }
 
-        public async Task<Person> FindAsync(Expression<Func<Person, bool>> predicate)
+        public Task<CourseParticipant> FindAsync(Expression<Func<CourseParticipant, bool>> predicate)
         {
-            return await _dataContext.Persons.SingleOrDefaultAsync(predicate);
+            throw new NotImplementedException();
         }
 
-        public async Task<IList<Person>> MatchAsync(ICriteria<Person> criteria)
+        public async Task<IList<CourseParticipant>> MatchAsync(ICriteria<CourseParticipant> criteria)
         {
-            return criteria.MatchQueryFrom(_dataContext.Persons);
+            return criteria.MatchQueryFrom(_dataContext.CourseParticipants);
         }
     }
 }
