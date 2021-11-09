@@ -21,14 +21,13 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
             var mockCourseParticipantService = new Mock<ICourseParticipantService>();
 
             mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(new Course());
-
             mockPersonService.Setup(p => p.Get(It.IsAny<Guid>())).ReturnsAsync(new model.Person());
 
             var service = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object);
 
             var result = await service.AddParticipant(Guid.NewGuid(), Guid.NewGuid());
 
-            Assert.False(result == -1);
+            Assert.True( result != Guid.Empty);
         }
 
         [Fact]

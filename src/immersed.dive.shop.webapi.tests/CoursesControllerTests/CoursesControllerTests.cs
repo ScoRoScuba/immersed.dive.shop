@@ -71,15 +71,17 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
         {
             var mockService = new Mock<ICourseService>();
 
-            mockService.Setup(g => g.AddParticipant(It.IsAny<Guid>(), It.IsAny<Guid>())).ReturnsAsync(() => 1);
+            var courseParticipantGuid = Guid.NewGuid();
+
+            mockService.Setup(g => g.AddParticipant(It.IsAny<Guid>(), It.IsAny<Guid>())).ReturnsAsync(() => courseParticipantGuid);
 
             var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object);
 
             var result = await controller.AddParticipantToCourse(Guid.NewGuid(), Guid.NewGuid());
 
-            var createdObjectResult = result as OkObjectResult;
+            var createdObjectResult = result as CreatedResult;
 
-            Assert.True((int)createdObjectResult.Value == 1);
+            Assert.True(createdObjectResult.Location.EndsWith(courseParticipantGuid.ToString()));
         }
 
         [Fact]

@@ -35,25 +35,23 @@ namespace immersed.dive.shop.application.Courses
             return await _courseDataStore.GetAllAsync();
         }
 
-        public async Task<int> AddParticipant(Guid courseId, Guid personId)
+        public async Task<Guid> AddParticipant(Guid courseId, Guid personId)
         {
             var course = await _courseDataStore.FindAsync(c => c.Id == courseId);
 
-            var person = await _personService.Get(personId);
-
-            course.Participants.Add(new CourseParticipant
+            var courseParticipant = new CourseParticipant
             {
                 CourseId = courseId,
-                Course = course,
                 ParticipantId = personId,
-                Participant = person,
                 Live = true,
                 DateCreated = DateTime.UtcNow
-            });
+            };
+
+            course.Participants.Add(courseParticipant);
 
             var result = await _courseDataStore.UpdateAsync(course);
 
-            return course.Participants.Count;
+            return courseParticipant.Id;
         }
 
         public async Task<List<model.Person>> GetParticipants(Guid courseId)
