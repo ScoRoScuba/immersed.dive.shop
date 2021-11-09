@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Moq;
+using ILogger = Serilog.ILogger;
 
 namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
 {
@@ -38,6 +40,8 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
                     options.UseInMemoryDatabase("InMemoryAppDb");
                     options.UseInternalServiceProvider(serviceProvider);
                 });
+
+                services.AddSingleton(new Mock<ILogger>().Object);
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();

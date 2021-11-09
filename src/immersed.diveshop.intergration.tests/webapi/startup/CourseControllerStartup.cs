@@ -2,16 +2,13 @@
 using immersed.dive.shop.application;
 using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.application.Person;
-using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.repository;
 using immersed.dive.shop.webapi.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 
 namespace immersed.diveshop.intergration.tests.webapi.startup
 {

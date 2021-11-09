@@ -6,7 +6,7 @@ using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
 using immersed.dive.shop.webapi.WebDtos;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper.QueryableExtensions;
+using Serilog;
 
 namespace immersed.dive.shop.webapi.Controllers
 {
@@ -16,11 +16,13 @@ namespace immersed.dive.shop.webapi.Controllers
     {
         private readonly ICourseService _courseService;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public CoursesController(ICourseService courseService, IMapper mapper)
+        public CoursesController(ICourseService courseService, IMapper mapper, ILogger logger)
         {
             _courseService = courseService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]

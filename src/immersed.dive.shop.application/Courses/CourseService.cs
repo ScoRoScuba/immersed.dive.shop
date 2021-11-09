@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
+using Serilog;
 
 namespace immersed.dive.shop.application.Courses
 {
@@ -12,12 +13,14 @@ namespace immersed.dive.shop.application.Courses
         private readonly IDataStore<Course> _courseDataStore;
         private readonly IPersonService _personService;
         private readonly ICourseParticipantService _courseParticipantService;
+        private readonly ILogger _logger;
 
-        public CourseService(IDataStore<Course> courseDataStore, IPersonService personService, ICourseParticipantService courseParticipantService)
+        public CourseService(IDataStore<Course> courseDataStore, IPersonService personService, ICourseParticipantService courseParticipantService, ILogger logger)
         {
             _courseDataStore = courseDataStore;
             _personService = personService;
             _courseParticipantService = courseParticipantService;
+            _logger = logger;
         }
 
         public async Task<Course> Get(Guid id)
@@ -65,7 +68,11 @@ namespace immersed.dive.shop.application.Courses
         {
             var course = await _courseDataStore.FindAsync(c => c.Id == courseId);
 
-            if (course == null) return null;
+            if (course == null)
+            {
+                _logger.Warning("{class}:{action}-{message}-{courseId}", nameof(CourseService), nameof(GetParticipants), "CourseNotFound", courseId);
+                return null;
+            }
 
             var result = await _courseParticipantService.GetCourseParticipant(courseParticipantId);
 

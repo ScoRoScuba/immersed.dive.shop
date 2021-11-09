@@ -8,6 +8,7 @@ using immersed.dive.shop.webapi.Controllers;
 using immersed.dive.shop.webapi.WebDtos;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Serilog;
 using Xunit;
 using static Xunit.Assert;
 
@@ -15,6 +16,8 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
 {
     public class CoursesControllerTests
     {
+        private Mock<ILogger> mockLogger = new Mock<ILogger>();
+
         [Fact]
         public async Task GET_ReturnsOkResultWithCourses()
         {
@@ -26,7 +29,7 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
                 new()
             });
 
-            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object);
+            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object, mockLogger.Object);
 
             var result = await controller.Get();
 
@@ -40,7 +43,7 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
         {
             var mockService = new Mock<ICourseService>();
 
-            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object);
+            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object, mockLogger.Object);
 
             var course = new Course();
 
@@ -58,7 +61,7 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
 
             mockService.Setup(g => g.Get(It.IsAny<Guid>())).ReturnsAsync(()=>null);
 
-            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object);
+            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object, mockLogger.Object);
 
             var result = await controller.Get(Guid.Empty);
 
@@ -75,7 +78,7 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
 
             mockService.Setup(g => g.AddParticipant(It.IsAny<Guid>(), It.IsAny<Guid>())).ReturnsAsync(() => courseParticipantGuid);
 
-            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object);
+            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object, mockLogger.Object);
 
             var result = await controller.AddParticipantToCourse(Guid.NewGuid(), Guid.NewGuid());
 
@@ -95,7 +98,7 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
 
             mockMapper.Setup(m=> m.Map<IList<Person>, IList<PersonDto>>(It.IsAny<IList<Person>>())).Returns(() => new List<PersonDto>() { new(), new() });
 
-            var controller = new CoursesController(mockService.Object, mockMapper.Object);
+            var controller = new CoursesController(mockService.Object, mockMapper.Object, mockLogger.Object);
 
             var result = await controller.GetCourseParticipants(Guid.NewGuid());
 

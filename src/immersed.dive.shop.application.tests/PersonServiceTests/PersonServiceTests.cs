@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.application.Person;
 using immersed.dive.shop.domain.interfaces.Data;
-using immersed.dive.shop.model;
 using Moq;
+using Serilog;
 using Xunit;
 
 namespace immersed.dive.shop.application.tests.PersonServiceTests
@@ -14,6 +13,8 @@ namespace immersed.dive.shop.application.tests.PersonServiceTests
 
     public class PersonServiceTests
     {
+        private Mock<ILogger> mockLogger = new Mock<ILogger>();
+
         [Fact]
         public async void GetAllReturnsAllPersons()
         {
@@ -26,7 +27,7 @@ namespace immersed.dive.shop.application.tests.PersonServiceTests
                 new model.Person()
             });
 
-            var courseService = new PersonService(mockDataStore.Object);
+            var courseService = new PersonService(mockDataStore.Object, mockLogger.Object);
 
             var result = await courseService.GetAll();
 
@@ -51,7 +52,7 @@ namespace immersed.dive.shop.application.tests.PersonServiceTests
             mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<model.Person, bool>>>())).ReturnsAsync(
                 (Expression<Func<model.Person, bool>> predicate) => list.AsQueryable().Single(predicate));
 
-            var personService = new PersonService(mockDataStore.Object);
+            var personService = new PersonService(mockDataStore.Object, mockLogger.Object);
 
             var result = await personService.Get(candidateGuid);
 
@@ -76,7 +77,7 @@ namespace immersed.dive.shop.application.tests.PersonServiceTests
             mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<model.Person, bool>>>())).ReturnsAsync(
                 (Expression<Func<model.Person, bool>> predicate) => list.AsQueryable().SingleOrDefault(predicate));
 
-            var personService = new PersonService(mockDataStore.Object);
+            var personService = new PersonService(mockDataStore.Object, mockLogger.Object);
 
             var result = await personService.Get(Guid.NewGuid());
 

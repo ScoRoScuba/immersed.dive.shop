@@ -2,12 +2,15 @@
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using Moq;
+using Serilog;
 using Xunit;
 
 namespace immersed.dive.shop.application.tests.CourseServiceTests
 {
     public class CourseParticipantsServiceTests
     {
+        private Mock<ILogger> mockLogger = new Mock<ILogger>();
+
         [Fact]
         public async void GetCourseParticipantsReturnsListOfPersonsOnCourse()
         {
@@ -34,7 +37,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
 
             mockDataStore.Setup(d => d.MatchAsync(It.IsAny<ICriteria<CourseParticipant>>())).ReturnsAsync(list);
             
-            var courseParticipantService = new CourseParticipantService(mockDataStore.Object);
+            var courseParticipantService = new CourseParticipantService(mockDataStore.Object, mockLogger.Object);
 
             var result = await courseParticipantService.GetCourseParticipants(courseId);
 

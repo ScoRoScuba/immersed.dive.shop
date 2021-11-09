@@ -6,16 +6,19 @@ using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using immersed.dive.shop.repository;
+using Serilog;
 
 namespace immersed.dive.shop.application
 {
     public class CourseParticipantService : ICourseParticipantService
     {
         private readonly IDataStore<CourseParticipant> _courseParticipantDataStore;
+        private readonly ILogger _logger;
 
-        public CourseParticipantService(IDataStore<CourseParticipant> courseParticipantDataStore)
+        public CourseParticipantService(IDataStore<CourseParticipant> courseParticipantDataStore, ILogger logger)
         {
             _courseParticipantDataStore = courseParticipantDataStore;
+            _logger = logger;
         }
 
         public async Task<List<model.Person>> GetCourseParticipants(Guid courseId)

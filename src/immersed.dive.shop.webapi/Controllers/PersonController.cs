@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace immersed.dive.shop.webapi.Controllers
 {
@@ -12,10 +13,12 @@ namespace immersed.dive.shop.webapi.Controllers
     public class PersonController: ControllerBase
     {
         private readonly IPersonService _personService;
+        private readonly ILogger _logger;
 
-        public PersonController(IPersonService personService)
+        public PersonController(IPersonService personService, ILogger logger)
         {
             _personService = personService;
+            _logger = logger;
         }
 
         [HttpPost]

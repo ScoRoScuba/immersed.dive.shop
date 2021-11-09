@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\immersed.dive.shop.model\immersed.dive.shop.model.csproj" />
     <ProjectReference Include="..\immersed.dive.shop.repository\immersed.dive.shop.repository.csproj" />
     <ProjectReference Include="..\immsersed.dive.shop.domain.interfaces\immersed.dive.shop.domain.interfaces.csproj" />

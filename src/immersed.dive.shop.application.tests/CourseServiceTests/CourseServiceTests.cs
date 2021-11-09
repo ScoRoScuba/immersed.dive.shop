@@ -7,12 +7,15 @@ using immersed.dive.shop.model;
 using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.domain.interfaces;
 using Moq;
+using Serilog;
 using Xunit;
 
 namespace immersed.dive.shop.application.tests.CourseServiceTests
 {
     public class CourseServiceTests
     {
+        private Mock<ILogger> mockLogger = new Mock<ILogger>();
+
         [Fact]
         public async void GetAllReturnsAllCourses()
         {
@@ -27,7 +30,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
                 new Course()
             });
 
-            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object);
+            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object, mockLogger.Object);
 
             var result = await courseService.GetAll();
 
@@ -54,7 +57,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
             mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(
                 (Expression<Func<Course, bool>> predicate) => list.AsQueryable().Single(predicate));
 
-            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object);
+            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object, mockLogger.Object);
 
             var result = await courseService.Get(candidateGuid);
 
@@ -81,7 +84,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
             mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(
                 (Expression<Func<Course, bool>> predicate) => list.AsQueryable().SingleOrDefault(predicate));
 
-            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object);
+            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object, mockLogger.Object);
 
             var result = await courseService.Get(Guid.NewGuid());
 
