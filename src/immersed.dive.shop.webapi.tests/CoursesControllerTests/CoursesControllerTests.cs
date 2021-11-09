@@ -67,7 +67,7 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
         }
 
         [Fact]
-        public async Task POST_AddingPersonToCourseReturnsNumberOnCourse()
+        public async Task POST_AddingPersonToCourseReturnsCourseParticipantID()
         {
             var mockService = new Mock<ICourseService>();
 
@@ -81,7 +81,7 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
 
             var createdObjectResult = result as CreatedResult;
 
-            Assert.True(createdObjectResult.Location.EndsWith(courseParticipantGuid.ToString()));
+            Assert.EndsWith(courseParticipantGuid.ToString(), createdObjectResult.Location);
         }
 
         [Fact]

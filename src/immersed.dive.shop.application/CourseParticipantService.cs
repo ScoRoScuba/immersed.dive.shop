@@ -20,7 +20,6 @@ namespace immersed.dive.shop.application
 
         public async Task<List<model.Person>> GetCourseParticipants(Guid courseId)
         {
-
             var result = await _courseParticipantDataStore.MatchAsync(new CourseParticipantsQuery(courseId));
 
             if( result.Any()){
@@ -28,6 +27,14 @@ namespace immersed.dive.shop.application
             }
 
             return new List<model.Person>();
+        }
+
+        public async Task<CourseParticipant> GetCourseParticipant(Guid courseParticipantId)
+        {
+            var result = await _courseParticipantDataStore.FindAsync(cp=>cp.Id == courseParticipantId);
+
+            return result;
+
         }
     }
 }

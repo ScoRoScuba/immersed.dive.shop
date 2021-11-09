@@ -8,7 +8,7 @@ namespace immersed.dive.shop.webapi.WebDtos
     {
         public CourseDto()
         {
-            Participants = new List<Person>();
+            Participants = new List<PersonDto>();
         }
 
         public Guid Id { get; set; }
@@ -16,7 +16,7 @@ namespace immersed.dive.shop.webapi.WebDtos
         public DateTime StartDate { get; set; }
         public string Description { get; set; }
 
-        public List<Person> Participants { get; set; }
+        public List<PersonDto> Participants { get; set; }
 
         public DateTime DateCreated { get; set; }
         public DateTime LastUpdated { get; set; }

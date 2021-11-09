@@ -71,5 +71,17 @@ namespace immersed.dive.shop.webapi.Controllers
 
             return Ok(dtoResult);
         }
+
+        [HttpGet]
+        [Route("{courseId:guid}/participants/{courseParticipantId:guid}")]
+        public async Task<OkObjectResult> GetCourseParticipant(Guid courseId, Guid courseParticipantId )
+        {
+            var result = await _courseService
+                .GetCourseParticipant(courseId, courseParticipantId);
+
+            var dtoResult = _mapper.Map<CourseParticipant, CourseParticipantDto>(result);
+
+            return Ok(dtoResult);
+        }
     }
 }

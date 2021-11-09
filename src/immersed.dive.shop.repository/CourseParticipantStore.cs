@@ -48,9 +48,9 @@ namespace immersed.dive.shop.repository
             throw new NotImplementedException();
         }
 
-        public Task<CourseParticipant> FindAsync(Expression<Func<CourseParticipant, bool>> predicate)
+        public async Task<CourseParticipant> FindAsync(Expression<Func<CourseParticipant, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _dataContext.CourseParticipants.SingleOrDefaultAsync(predicate);
         }
 
         public async Task<IList<CourseParticipant>> MatchAsync(ICriteria<CourseParticipant> criteria)

@@ -8,5 +8,7 @@ namespace immersed.dive.shop.domain.interfaces
     public interface ICourseParticipantService
     {
         Task<List<Person>> GetCourseParticipants(Guid courseId);
+
+        Task<CourseParticipant> GetCourseParticipant(Guid courseParticipantId);
     }
 }

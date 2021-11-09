@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using immersed.dive.shop.model;
 using immersed.dive.shop.repository;
+using immersed.dive.shop.webapi.WebDtos;
 using immersed.diveshop.intergration.tests.webapi.startup;
 using immersed.diveshop.intergration.tests.webapi.WebApplicationFactories;
 using Microsoft.Extensions.DependencyInjection;
@@ -82,6 +83,30 @@ namespace immersed.diveshop.intergration.tests.webapi.CourseControllerTests
             Assert.True(response.IsSuccessStatusCode);
             Assert.True(response.StatusCode == HttpStatusCode.Created); 
             Assert.NotNull(response.Headers.Location);
+        }
+
+        [Fact]
+        public async void CanGetParticipantOnCourseReturnsCourseParticpant()
+        {
+            var testPersonGuid = Guid.NewGuid();
+            var jsonPayload = JsonConvert.SerializeObject(testPersonGuid);
+
+            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync($"courses/{courseGuid1}/participants", content);
+
+            Assert.True(response.IsSuccessStatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.Created);
+            Assert.NotNull(response.Headers.Location);
+
+            var courseResponse = await _client.GetAsync(response.Headers.Location);
+
+            Assert.True(response.IsSuccessStatusCode);
+            var contentFromGet = await courseResponse.Content.ReadAsStringAsync();
+
+            var courseParticipant = JsonConvert.DeserializeObject(contentFromGet, typeof(CourseParticipantDto)) as CourseParticipantDto;
+
+            Assert.True(courseParticipant.CourseId == courseGuid1);
+            Assert.True(courseParticipant.ParticipantId  == testPersonGuid);
         }
     }
 }

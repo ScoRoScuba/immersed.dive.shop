@@ -15,7 +15,8 @@ namespace immersed.dive.shop.webapi.Core
             CreateMap<Person, PersonDto>()
                     .ForMember(dest => dest.Courses, opt => opt.Ignore());
 
-            CreateMap<Course, CourseDto>();
+            CreateMap<Course, CourseDto>()
+                    .ForMember(dest => dest.Participants, opt => opt.Ignore());
 
             CreateMap<CourseParticipant, CourseParticipantDto>();
         }

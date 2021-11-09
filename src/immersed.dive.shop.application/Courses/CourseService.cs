@@ -60,6 +60,17 @@ namespace immersed.dive.shop.application.Courses
 
             return result;
         }
+
+        public async Task<CourseParticipant> GetCourseParticipant(Guid courseId, Guid courseParticipantId)
+        {
+            var course = await _courseDataStore.FindAsync(c => c.Id == courseId);
+
+            if (course == null) return null;
+
+            var result = await _courseParticipantService.GetCourseParticipant(courseParticipantId);
+
+            return result;
+        }
     }
 
 }
