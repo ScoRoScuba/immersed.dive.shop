@@ -9,7 +9,7 @@ using immersed.diveshop.intergration.tests.webapi.WebApplicationFactories;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace immersed.diveshop.intergration.tests.webapi
+namespace immersed.diveshop.intergration.tests.webapi.CourseControllerTests
 {
     public class CoursesActions :IClassFixture<CustomWebApplicationFactory<CourseControllerStartup>>
     {

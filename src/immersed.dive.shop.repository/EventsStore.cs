@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces.Data;
@@ -9,16 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace immersed.dive.shop.repository
 {
-    public class CourseParticipantStore : IDataStore<CourseParticipant>
+    public class EventsStore : IDataStore<Event>
     {
         private readonly DiveShopDBContext _dataContext;
 
-        public CourseParticipantStore(DiveShopDBContext dataContext)
+        public EventsStore(DiveShopDBContext dataContext)
         {
             _dataContext = dataContext;
         }
-
-        public async Task<int> AddAsync(CourseParticipant entity)
+        public async Task<int> AddAsync(Event entity)
         {
             entity.DateCreated = DateTime.UtcNow;
             entity.Live = true;
@@ -28,19 +26,25 @@ namespace immersed.dive.shop.repository
             return count;
         }
 
-        public Task RemoveAsync(CourseParticipant entity)
+        public Task RemoveAsync(Event entity)
         {
+            entity.Live = false;
             throw new NotImplementedException();
         }
 
-        public async Task<IList<CourseParticipant>> GetAllAsync()
+        public async Task<IList<Event>> GetAllAsync()
         {
-            return await _dataContext.CourseParticipants.ToListAsync();
+            return await _dataContext.Events.AsQueryable().ToListAsync();
         }
 
-        public Task<int> UpdateAsync(CourseParticipant entity)
+        public async Task<int> UpdateAsync(Event entity)
         {
-            throw new NotImplementedException();
+            entity.LastUpdated = DateTime.UtcNow;
+
+            var result = _dataContext.Events.Update(entity);
+            var count = await _dataContext.SaveChangesAsync();
+
+            return count;
         }
 
         public Task<int> CountAsync()
@@ -48,14 +52,14 @@ namespace immersed.dive.shop.repository
             throw new NotImplementedException();
         }
 
-        public async Task<CourseParticipant> FindAsync(Expression<Func<CourseParticipant, bool>> predicate)
+        public async Task<Event> FindAsync(Expression<Func<Event, bool>> predicate)
         {
-            return await _dataContext.CourseParticipants.SingleOrDefaultAsync(predicate);
+            return await _dataContext.Events.SingleOrDefaultAsync(predicate);
         }
 
-        public async Task<IList<CourseParticipant>> MatchAsync(ICriteria<CourseParticipant> criteria)
+        public Task<IList<Event>> MatchAsync(ICriteria<Event> criteria)
         {
-            return criteria.MatchQueryFrom(_dataContext.CourseParticipants);
+            throw new NotImplementedException();
         }
     }
 }

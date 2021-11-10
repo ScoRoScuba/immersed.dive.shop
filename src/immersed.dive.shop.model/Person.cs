@@ -9,7 +9,7 @@ namespace immersed.dive.shop.model
         public Person()
         {
             Id = Guid.NewGuid();
-            Courses = new List<CourseParticipant>();
+            Events = new List<EventParticipant>();
         }
 
         public Guid Id { get; set; }
@@ -22,7 +22,7 @@ namespace immersed.dive.shop.model
         public Sex Sex { get; set; }
         public string IdentifiesAs { get; set; }
 
-        public List<CourseParticipant> Courses { get; set; }
+        public List<EventParticipant> Events { get; set; }
 
         public DateTime DateCreated { get; set; }
         public DateTime LastUpdated { get; set; }

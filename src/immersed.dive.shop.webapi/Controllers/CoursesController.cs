@@ -52,38 +52,5 @@ namespace immersed.dive.shop.webapi.Controllers
 
             return Created(new Uri($"/courses/{course.Id}", UriKind.Relative), null);
         }
-
-        [HttpPost]
-        [Route("{courseId:guid}/participants")]
-        public async Task<IActionResult> AddParticipantToCourse(Guid courseId, [FromBody]Guid personId)
-        {
-            var courseParticipantId = await _courseService.AddParticipant(courseId, personId);
-
-            return Created(new Uri($"/courses/{courseId}/participants/{courseParticipantId}", UriKind.Relative), null);
-        }
-
-        [HttpGet]
-        [Route("{courseId:guid}/participants")]
-        public async Task<OkObjectResult> GetCourseParticipants(Guid courseId)
-        {
-            var result = await _courseService
-                .GetParticipants(courseId);
-
-            var dtoResult = _mapper.Map<IList<Person>, IList<PersonDto>>(result);
-
-            return Ok(dtoResult);
-        }
-
-        [HttpGet]
-        [Route("{courseId:guid}/participants/{courseParticipantId:guid}")]
-        public async Task<OkObjectResult> GetCourseParticipant(Guid courseId, Guid courseParticipantId )
-        {
-            var result = await _courseService
-                .GetCourseParticipant(courseId, courseParticipantId);
-
-            var dtoResult = _mapper.Map<CourseParticipant, CourseParticipantDto>(result);
-
-            return Ok(dtoResult);
-        }
     }
 }

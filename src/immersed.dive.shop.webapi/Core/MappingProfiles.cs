@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using immersed.dive.shop.model;
 using immersed.dive.shop.webapi.WebDtos;
 
@@ -18,7 +14,12 @@ namespace immersed.dive.shop.webapi.Core
             CreateMap<Course, CourseDto>()
                     .ForMember(dest => dest.Participants, opt => opt.Ignore());
 
-            CreateMap<CourseParticipant, CourseParticipantDto>();
+            CreateMap<Event, EventDto>()
+                .ForMember(dest => dest.Participants, opt => opt.Ignore());
+
+            CreateMap<EventDate, EventDateDto>();
+
+            CreateMap<EventParticipant, EventParticipantDto>();
         }
     }
 }

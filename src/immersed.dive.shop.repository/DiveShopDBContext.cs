@@ -16,24 +16,26 @@ namespace immersed.dive.shop.repository
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Course>(x => x.HasKey(k => k.Id));
+            modelBuilder.Entity<Event>(x => x.HasKey(k => k.Id));
             modelBuilder.Entity<Person>(x => x.HasKey(k => k.Id));
 
-            modelBuilder.Entity<CourseParticipant>(x => x.HasKey(cp => new { cp.CourseId, cp.ParticipantId }));
+            modelBuilder.Entity<EventParticipant>(x => x.HasKey(cp => new { cp.EventId, cp.ParticipantId }));
 
-            modelBuilder.Entity<CourseParticipant>()
+            modelBuilder.Entity<EventParticipant>()
                 .HasOne(u => u.Participant)
-                .WithMany(a => a.Courses)
+                .WithMany(a => a.Events)
                 .HasForeignKey(aa => aa.ParticipantId);
 
-            modelBuilder.Entity<CourseParticipant>()
-                .HasOne(u => u.Course)
+            modelBuilder.Entity<EventParticipant>()
+                .HasOne(u => u.Event)
                 .WithMany(a => a.Participants)
-                .HasForeignKey(aa => aa.CourseId);
+                .HasForeignKey(aa => aa.EventId);
         }
 
         public DbSet<Course> Courses { get; set; }
         public DbSet<Person> Persons { get; set; }
 
-        public DbSet<CourseParticipant> CourseParticipants{ get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventParticipant> EventParticipants{ get; set; }
     }
 }

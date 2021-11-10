@@ -11,15 +11,11 @@ namespace immersed.dive.shop.application.Courses
     public class CourseService : ICourseService
     {
         private readonly IDataStore<Course> _courseDataStore;
-        private readonly IPersonService _personService;
-        private readonly ICourseParticipantService _courseParticipantService;
         private readonly ILogger _logger;
 
-        public CourseService(IDataStore<Course> courseDataStore, IPersonService personService, ICourseParticipantService courseParticipantService, ILogger logger)
+        public CourseService(IDataStore<Course> courseDataStore, ILogger logger)
         {
             _courseDataStore = courseDataStore;
-            _personService = personService;
-            _courseParticipantService = courseParticipantService;
             _logger = logger;
         }
 
@@ -36,47 +32,6 @@ namespace immersed.dive.shop.application.Courses
         public async Task<IList<Course>> GetAll()
         {
             return await _courseDataStore.GetAllAsync();
-        }
-
-        public async Task<Guid> AddParticipant(Guid courseId, Guid personId)
-        {
-            var course = await _courseDataStore.FindAsync(c => c.Id == courseId);
-
-            var courseParticipant = new CourseParticipant
-            {
-                CourseId = courseId,
-                ParticipantId = personId,
-                Live = true,
-                DateCreated = DateTime.UtcNow
-            };
-
-            course.Participants.Add(courseParticipant);
-
-            var result = await _courseDataStore.UpdateAsync(course);
-
-            return courseParticipant.Id;
-        }
-
-        public async Task<List<model.Person>> GetParticipants(Guid courseId)
-        {
-            var result = await _courseParticipantService.GetCourseParticipants(courseId);
-
-            return result;
-        }
-
-        public async Task<CourseParticipant> GetCourseParticipant(Guid courseId, Guid courseParticipantId)
-        {
-            var course = await _courseDataStore.FindAsync(c => c.Id == courseId);
-
-            if (course == null)
-            {
-                _logger.Warning("{class}:{action}-{message}-{courseId}", nameof(CourseService), nameof(GetParticipants), "CourseNotFound", courseId);
-                return null;
-            }
-
-            var result = await _courseParticipantService.GetCourseParticipant(courseParticipantId);
-
-            return result;
         }
     }
 

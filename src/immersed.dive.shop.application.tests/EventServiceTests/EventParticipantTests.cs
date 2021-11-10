@@ -12,21 +12,21 @@ using Xunit;
 
 namespace immersed.dive.shop.application.tests.CourseServiceTests
 {
-    public class CourseParticipantTests
+    public class EventParticipantTests
     {
         private Mock<ILogger> mockLogger = new Mock<ILogger>();
 
         [Fact]
-        public async Task ParticipantIsAddedToCourse()
+        public async Task ParticipantIsAddedToEvent()
         {
-            var mockDataStore = new Mock<IDataStore<Course>>();
+            var mockDataStore = new Mock<IDataStore<Event>>();
             var mockPersonService = new Mock<IPersonService>();
-            var mockCourseParticipantService = new Mock<ICourseParticipantService>();
+            var mockCourseParticipantService = new Mock<IEventParticipantService>();
 
-            mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(new Course());
+            mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Event, bool>>>())).ReturnsAsync(new Event());
             mockPersonService.Setup(p => p.Get(It.IsAny<Guid>())).ReturnsAsync(new model.Person());
 
-            var service = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object, mockLogger.Object);
+            var service = new EventService(mockDataStore.Object, mockCourseParticipantService.Object, mockLogger.Object);
 
             var result = await service.AddParticipant(Guid.NewGuid(), Guid.NewGuid());
 
@@ -36,13 +36,13 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
         [Fact]
         public async Task CanGetParticipantsForCourse()
         {
-            var mockCourseDataStore = new Mock<IDataStore<Course>>();
+            var mockCourseDataStore = new Mock<IDataStore<Event>>();
             var mockPersonService = new Mock<IPersonService>();
-            var mockCourseParticipantService = new Mock<ICourseParticipantService>();
+            var mockCourseParticipantService = new Mock<IEventParticipantService>();
 
-            mockCourseParticipantService.Setup(cp => cp.GetCourseParticipants(It.IsAny<Guid>())).ReturnsAsync(new List<model.Person>{new model.Person()});
+            mockCourseParticipantService.Setup(cp => cp.GetParticipants(It.IsAny<Guid>())).ReturnsAsync(new List<model.Person>{new model.Person()});
 
-            var service = new CourseService(mockCourseDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object, mockLogger.Object);
+            var service = new EventService(mockCourseDataStore.Object, mockCourseParticipantService.Object, mockLogger.Object);
 
             var result = await service.GetParticipants(Guid.NewGuid());
 

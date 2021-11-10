@@ -28,8 +28,11 @@ namespace immersed.diveshop.intergration.tests.webapi.startup
             builder.RegisterType<PersonService>().AsImplementedInterfaces();
             builder.RegisterType<PersonStore>().AsImplementedInterfaces();
 
-            builder.RegisterType<CourseParticipantService>().AsImplementedInterfaces();
-            builder.RegisterType<CourseParticipantStore>().AsImplementedInterfaces();
+            builder.RegisterType<EventService>().AsImplementedInterfaces();
+            builder.RegisterType<EventsStore>().AsImplementedInterfaces();
+
+            builder.RegisterType<EventParticipantService>().AsImplementedInterfaces();
+            builder.RegisterType<EventParticipantStore>().AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

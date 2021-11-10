@@ -20,8 +20,6 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
         public async void GetAllReturnsAllCourses()
         {
             var mockDataStore = new Mock<IDataStore<Course>>();
-            var mockPersonService = new Mock<IPersonService>();
-            var mockCourseParticipantService = new Mock<ICourseParticipantService>();
 
             mockDataStore.Setup( d=>d.GetAllAsync()).ReturnsAsync(()=> new List<Course>
             {
@@ -30,7 +28,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
                 new Course()
             });
 
-            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object, mockLogger.Object);
+            var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
 
             var result = await courseService.GetAll();
 
@@ -42,8 +40,6 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
         public async void GetByIdReturnsCourseThatExists()
         {
             var mockDataStore = new Mock<IDataStore<Course>>();
-            var mockPersonService = new Mock<IPersonService>();
-            var mockCourseParticipantService = new Mock<ICourseParticipantService>();
 
             var candidateGuid = Guid.NewGuid();
 
@@ -57,7 +53,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
             mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(
                 (Expression<Func<Course, bool>> predicate) => list.AsQueryable().Single(predicate));
 
-            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object, mockLogger.Object);
+            var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
 
             var result = await courseService.Get(candidateGuid);
 
@@ -69,8 +65,6 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
         public async void GetByIdReturnsCourseDoesNotExist()
         {
             var mockDataStore = new Mock<IDataStore<Course>>();
-            var mockPersonService = new Mock<IPersonService>();
-            var mockCourseParticipantService = new Mock<ICourseParticipantService>();
 
             var candidateGuid = Guid.NewGuid();
 
@@ -84,7 +78,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
             mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(
                 (Expression<Func<Course, bool>> predicate) => list.AsQueryable().SingleOrDefault(predicate));
 
-            var courseService = new CourseService(mockDataStore.Object, mockPersonService.Object, mockCourseParticipantService.Object, mockLogger.Object);
+            var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
 
             var result = await courseService.Get(Guid.NewGuid());
 

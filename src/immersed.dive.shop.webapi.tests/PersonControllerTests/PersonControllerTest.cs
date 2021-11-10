@@ -10,7 +10,7 @@ using Serilog;
 using Xunit;
 using static Xunit.Assert;
 
-namespace immersed.dive.shop.webapi.tests
+namespace immersed.dive.shop.webapi.tests.PersonControllerTests
 {
     public class PersonControllerTest
     {
