@@ -57,9 +57,9 @@ namespace immersed.dive.shop.repository
             return await _dataContext.Events.SingleOrDefaultAsync(predicate);
         }
 
-        public Task<IList<Event>> MatchAsync(ICriteria<Event> criteria)
+        public async Task<IList<Event>> MatchAsync(ICriteria<Event> criteria)
         {
-            throw new NotImplementedException();
+            return await criteria.MatchQueryFromAsync(_dataContext.Events);
         }
     }
 }

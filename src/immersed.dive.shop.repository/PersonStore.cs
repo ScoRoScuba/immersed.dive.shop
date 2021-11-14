@@ -55,7 +55,7 @@ namespace immersed.dive.shop.repository
 
         public async Task<IList<Person>> MatchAsync(ICriteria<Person> criteria)
         {
-            return criteria.MatchQueryFrom(_dataContext.Persons);
+            return await criteria.MatchQueryFromAsync(_dataContext.Persons);
         }
     }
 }

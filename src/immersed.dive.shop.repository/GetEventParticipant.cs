@@ -8,22 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace immersed.dive.shop.repository
 {
-    public class EventParticipantsQuery : ICriteria<EventParticipant>
+    public class GetEventParticipant : ICriteria<EventParticipant>
     {
-        private readonly Guid _eventId;
+        private readonly Guid _eventParticipantId;
 
-        public EventParticipantsQuery(Guid eventId )
+        public GetEventParticipant(Guid eventParticipantId)
         {
-            _eventId = eventId;
+            _eventParticipantId = eventParticipantId;
         }
-
         public async Task<IList<EventParticipant>> MatchQueryFromAsync(IQueryable<EventParticipant> ds)
         {
-            return  await ds
+            return await ds
                 .Include(p => p.Participant)
-                .Include( e =>e.Event)
-                .Include(c=>c.Event.Course)
-                .Where(ep => ep.EventId == _eventId).ToListAsync();
+                .Where(ep => ep.Id == _eventParticipantId)
+                .ToListAsync();
         }
     }
 }

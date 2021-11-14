@@ -5,7 +5,7 @@ using Moq;
 using Serilog;
 using Xunit;
 
-namespace immersed.dive.shop.application.tests.CourseServiceTests
+namespace immersed.dive.shop.application.tests.EventServiceTests
 {
     public class EventParticipantsServiceTests
     {

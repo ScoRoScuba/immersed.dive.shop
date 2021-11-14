@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
+using immersed.dive.shop.repository;
 using Serilog;
 
 namespace immersed.dive.shop.application
@@ -24,9 +26,11 @@ namespace immersed.dive.shop.application
 
         public async Task<EventParticipant> GetEventParticipant(Guid eventId, Guid eventParticipantId)
         {
-            var @event = await _eventDataStore.FindAsync(c => c.Id == eventId);
+            var @event = await _eventDataStore.MatchAsync(new GetEventCriteria(eventId));
 
-            if (@event == null)
+            var theEvent = @event.FirstOrDefault();
+
+            if (theEvent == null)
             {
                 _logger.Warning("{class}:{action}-{message}-{eventId}", nameof(CourseService), nameof(GetEventParticipant), "EventNotFound", eventId);
                 return null;
@@ -39,9 +43,15 @@ namespace immersed.dive.shop.application
 
         public async Task<Guid> AddParticipant(Guid eventId, Guid personId)
         {
-            var course = await _eventDataStore.FindAsync(c => c.Id == eventId);
+            var @event = (await _eventDataStore.MatchAsync(new GetEventCriteria(eventId))).FirstOrDefault();
 
-            var courseParticipant = new EventParticipant
+            if (@event == null)
+            {
+                _logger.Warning("{class}:{action}-{message}-{eventId}", nameof(CourseService), nameof(GetEventParticipant), "EventNotFound", eventId);
+                return Guid.Empty;
+            }
+
+            var eventParticipant = new EventParticipant
             {
                 EventId = eventId,
                 ParticipantId = personId,
@@ -49,11 +59,11 @@ namespace immersed.dive.shop.application
                 DateCreated = DateTime.UtcNow
             };
 
-            course.Participants.Add(courseParticipant);
+            @event.Participants.Add(eventParticipant);
 
-            var result = await _eventDataStore.UpdateAsync(course);
+            var result = await _eventDataStore.UpdateAsync(@event);
 
-            return courseParticipant.Id;
+            return eventParticipant.Id;
         }
 
         public async Task<List<model.Person>> GetParticipants(Guid eventId)

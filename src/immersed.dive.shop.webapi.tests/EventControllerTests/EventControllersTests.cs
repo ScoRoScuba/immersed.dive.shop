@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using immersed.dive.shop.domain.interfaces;
@@ -13,7 +11,7 @@ using Moq;
 using Serilog;
 using Xunit;
 
-namespace immersed.dive.shop.webapi.tests
+namespace immersed.dive.shop.webapi.tests.EventControllerTests
 {
     public class EventControllersTests
     {

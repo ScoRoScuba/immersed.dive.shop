@@ -12,13 +12,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace immersed.diveshop.intergration.tests.webapi.CourseControllerTests
+namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
 {
     public class EventParticipantActionTests : IClassFixture<CustomWebApplicationFactory<CourseControllerStartup>>
     {
         private readonly HttpClient _client;
         private readonly DiveShopDBContext _dbContext;
 
+        private Guid courseGuid1 = Guid.NewGuid();
+        private Guid courseGuid2 = Guid.NewGuid();
         private Guid eventGuid1 = Guid.NewGuid();
         private Guid eventGuid2 = Guid.NewGuid();
         private Guid personGuid1 = Guid.NewGuid();
@@ -31,10 +33,22 @@ namespace immersed.diveshop.intergration.tests.webapi.CourseControllerTests
 
             _dbContext = factory.Services.GetService<DiveShopDBContext>();
 
+            _dbContext.Courses.Add(new Course{Id = courseGuid1});
+            _dbContext.Courses.Add(new Course{Id= courseGuid2});
+
+            _dbContext.Events.Add(new Event()
+            {
+                Id = eventGuid1,
+                CourseId = courseGuid1
+            });
+            _dbContext.Events.Add(new Event()
+            {
+                Id = eventGuid2,
+                CourseId = courseGuid2
+            });
             _dbContext.EventParticipants.Add(new EventParticipant()
             {
                 EventId =eventGuid1,
-                Event = new Event() { Id = eventGuid1 },
                 ParticipantId = personGuid1,
                 Participant = new Person() { Id = personGuid1 }
             });
@@ -47,7 +61,6 @@ namespace immersed.diveshop.intergration.tests.webapi.CourseControllerTests
             _dbContext.EventParticipants.Add(new EventParticipant()
             {
                 EventId = Guid.NewGuid(),
-                Event = new Event() { Id = eventGuid2 },
                 ParticipantId = personGuid3,
                 Participant = new Person() { Id = personGuid3 }
             });
@@ -85,7 +98,7 @@ namespace immersed.diveshop.intergration.tests.webapi.CourseControllerTests
         }
 
         [Fact]
-        public async void CanGetParticipantOnEventReturnsEventParticpant()
+        public async void CanGetParticipantOnEventReturnsEventParticpants()
         {
             var testPersonGuid = Guid.NewGuid();
             var jsonPayload = JsonConvert.SerializeObject(testPersonGuid);

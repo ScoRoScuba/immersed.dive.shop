@@ -1,7 +1,7 @@
-﻿using System;
+﻿using immersed.dive.shop.model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using immersed.dive.shop.model;
 
 namespace immersed.dive.shop.domain.interfaces
 {

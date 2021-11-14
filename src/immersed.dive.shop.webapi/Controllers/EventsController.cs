@@ -25,7 +25,6 @@ namespace immersed.dive.shop.webapi.Controllers
             _logger = logger;
         }
 
-
         [HttpPost]
         [Route("{eventId:guid}/participants")]
         public async Task<IActionResult> AddParticipantToEvent(Guid eventId, [FromBody] Guid personId)

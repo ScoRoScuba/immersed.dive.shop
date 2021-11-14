@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
@@ -10,7 +9,7 @@ using Moq;
 using Serilog;
 using Xunit;
 
-namespace immersed.dive.shop.application.tests.CourseServiceTests
+namespace immersed.dive.shop.application.tests.EventServiceTests
 {
     public class EventParticipantTests
     {
@@ -19,14 +18,16 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
         [Fact]
         public async Task ParticipantIsAddedToEvent()
         {
-            var mockDataStore = new Mock<IDataStore<Event>>();
+            var mockEventDataStore = new Mock<IDataStore<Event>>();
             var mockPersonService = new Mock<IPersonService>();
             var mockCourseParticipantService = new Mock<IEventParticipantService>();
 
-            mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Event, bool>>>())).ReturnsAsync(new Event());
+            mockEventDataStore.Setup(d => d.MatchAsync(It.IsAny<ICriteria<Event>>()))
+                .ReturnsAsync(new List<Event>() {new Event()});
+
             mockPersonService.Setup(p => p.Get(It.IsAny<Guid>())).ReturnsAsync(new model.Person());
 
-            var service = new EventService(mockDataStore.Object, mockCourseParticipantService.Object, mockLogger.Object);
+            var service = new EventService(mockEventDataStore.Object, mockCourseParticipantService.Object, mockLogger.Object);
 
             var result = await service.AddParticipant(Guid.NewGuid(), Guid.NewGuid());
 

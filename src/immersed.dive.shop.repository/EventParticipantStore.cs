@@ -55,7 +55,7 @@ namespace immersed.dive.shop.repository
 
         public async Task<IList<EventParticipant>> MatchAsync(ICriteria<EventParticipant> criteria)
         {
-            return criteria.MatchQueryFrom(_dataContext.EventParticipants);
+            return await criteria.MatchQueryFromAsync(_dataContext.EventParticipants);
         }
     }
 }

@@ -32,12 +32,11 @@ namespace immersed.dive.shop.application
             return new List<model.Person>();
         }
 
-        public async Task<EventParticipant> GetParticipant(Guid courseParticipantId)
+        public async Task<EventParticipant> GetParticipant(Guid eventParticipantId)
         {
-            var result = await _eventParticipantDataStore.FindAsync(cp=>cp.Id == courseParticipantId);
+            var result = await _eventParticipantDataStore.MatchAsync(new GetEventParticipant(eventParticipantId));
 
-            return result;
-
+            return result.FirstOrDefault();
         }
     }
 }
