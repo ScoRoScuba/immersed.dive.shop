@@ -26,6 +26,25 @@ namespace immersed.dive.shop.webapi.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Post(Event @event)
+        {
+            await _eventService.Add(@event);
+
+            return Created(new Uri($"/events/{@event.Id}", UriKind.Relative), null);
+        }
+
+        [HttpGet]
+        [Route("{eventId:guid}")]
+        public async Task<IActionResult> Get(Guid eventId)
+        {
+            var @event = await _eventService.Get(eventId);
+
+            var result = _mapper.Map<Event, EventDto>(@event);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
         [Route("{eventId:guid}/participants")]
         public async Task<IActionResult> AddParticipantToEvent(Guid eventId, [FromBody] Guid personId)
         {

@@ -17,6 +17,12 @@ namespace immersed.dive.shop.webapi.Extensions.Startup
             containerBuilder.RegisterType<PersonStore>().AsImplementedInterfaces();
             containerBuilder.RegisterType<PersonService>().AsImplementedInterfaces();
 
+            containerBuilder.RegisterType<EventService>().AsImplementedInterfaces();
+            containerBuilder.RegisterType<EventsStore>().AsImplementedInterfaces();
+
+            containerBuilder.RegisterType<EventParticipantService>().AsImplementedInterfaces();
+            containerBuilder.RegisterType<EventParticipantStore>().AsImplementedInterfaces();
+
             return containerBuilder;
         }
     }

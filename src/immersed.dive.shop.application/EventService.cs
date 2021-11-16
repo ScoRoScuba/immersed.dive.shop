@@ -72,5 +72,15 @@ namespace immersed.dive.shop.application
 
             return result;
         }
+
+        public async Task Add(Event @event)
+        {
+            await _eventDataStore.AddAsync(@event);
+        }
+
+        public async Task<Event> Get(Guid eventId)
+        {
+            return await _eventDataStore.FindAsync(c => c.Id == eventId);
+        }
     }
 }
