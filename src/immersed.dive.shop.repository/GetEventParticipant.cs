@@ -18,10 +18,13 @@ namespace immersed.dive.shop.repository
         }
         public async Task<IList<EventParticipant>> MatchQueryFromAsync(IQueryable<EventParticipant> ds)
         {
-            return await ds
-                .Include(p => p.Participant)
-                .Where(ep => ep.Id == _eventParticipantId)
-                .ToListAsync();
+            var val = await ds.Where(psa => psa.Id == _eventParticipantId).ToListAsync();
+
+            var result = await ds.Where(ep => ep.Id == _eventParticipantId)
+                                        .Include(p => p.Participant)
+                                        .ToListAsync();
+
+            return result;
         }
     }
 }

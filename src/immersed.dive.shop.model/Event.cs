@@ -11,12 +11,12 @@ namespace immersed.dive.shop.model
             Dates = new List<EventDate>();
         }
 
-        public List<EventDate> Dates { get; set; }
+        public virtual List<EventDate> Dates { get; set; }
 
         public Guid  CourseId { get; set; }
-        public Course Course { get; set; }
+        public virtual Course Course { get; set; }
 
-        public List<EventParticipant> Participants { get; set; }
+        public virtual List<EventParticipant> Participants { get; set; }
 
         public Guid Id { get; set; }
         public DateTime DateCreated { get; set; }

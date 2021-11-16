@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Proxies;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,6 +17,20 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup: class
     {
+        private InMemoryDatabaseRoot _databaseRoot;
+        private InMemoryDatabaseRoot DatabaseRoot               
+        {
+            get
+            {
+                if (_databaseRoot == null)
+                {
+                    _databaseRoot = new InMemoryDatabaseRoot();
+                }
+
+                return _databaseRoot;
+            }
+        }
+
         protected override IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder()
@@ -32,12 +48,14 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
                 // Create a new service provider.
                 var serviceProvider = new ServiceCollection()
                         .AddEntityFrameworkInMemoryDatabase()
+                        .AddEntityFrameworkProxies()
                         .BuildServiceProvider();
 
                 // Add a database context (AppDbContext) using an in-memory database for testing.
                 services.AddDbContext<DiveShopDBContext>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryAppDb");
+                    options.UseLazyLoadingProxies();
+                    options.UseInMemoryDatabase("InMemoryAppDb", DatabaseRoot);
                     options.UseInternalServiceProvider(serviceProvider);
                 });
 

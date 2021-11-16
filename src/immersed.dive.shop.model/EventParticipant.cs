@@ -12,10 +12,10 @@ namespace immersed.dive.shop.model
         public Guid Id { get; set; }
 
         public Guid EventId { get; set; }
-        public Event Event { get; set; }
+        public virtual Event Event { get; set; }
         
         public Guid ParticipantId { get; set; }
-        public Person Participant { get; set; }
+        public virtual Person Participant { get; set; }
 
         public DateTime DateRegistered { get; set; }
         public DateTime DateConfirmed { get; set; }

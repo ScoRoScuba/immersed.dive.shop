@@ -22,7 +22,7 @@ namespace immersed.dive.shop.model
         public Sex Sex { get; set; }
         public string IdentifiesAs { get; set; }
 
-        public List<EventParticipant> Events { get; set; }
+        public virtual List<EventParticipant> Events { get; set; }
 
         public DateTime DateCreated { get; set; }
         public DateTime LastUpdated { get; set; }
