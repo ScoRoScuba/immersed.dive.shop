@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
@@ -41,7 +40,7 @@ namespace immersed.dive.shop.application.tests.EventServiceTests
             var mockPersonService = new Mock<IPersonService>();
             var mockCourseParticipantService = new Mock<IEventParticipantService>();
 
-            mockCourseParticipantService.Setup(cp => cp.GetParticipants(It.IsAny<Guid>())).ReturnsAsync(new List<model.Person>{new model.Person()});
+            mockCourseParticipantService.Setup(cp => cp.GetParticipants(It.IsAny<Guid>())).ReturnsAsync(new List<model.Person> {new model.Person()});
 
             var service = new EventService(mockCourseDataStore.Object, mockCourseParticipantService.Object, mockLogger.Object);
 

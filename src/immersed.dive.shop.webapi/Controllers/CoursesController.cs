@@ -30,7 +30,9 @@ namespace immersed.dive.shop.webapi.Controllers
         {
             var list = await _courseService.GetAll();
 
-            return Ok(list);
+            var result = _mapper.Map<IList<Course>, IList<CourseDto>>(list);
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -42,7 +44,9 @@ namespace immersed.dive.shop.webapi.Controllers
                 return NotFound();
             }
 
-            return Ok(course);
+            var result = _mapper.Map<Course, CourseDto>(course);
+
+            return Ok(result);
         }
 
         [HttpPost]

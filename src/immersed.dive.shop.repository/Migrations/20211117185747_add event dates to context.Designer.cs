@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using immersed.dive.shop.repository;
 
 namespace immersed.dive.shop.repository.Migrations
 {
     [DbContext(typeof(DiveShopDBContext))]
-    partial class DiveShopDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211117185747_add event dates to context")]
+    partial class addeventdatestocontext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -5,11 +5,6 @@ namespace immersed.dive.shop.webapi.WebDtos
 {
     public class EventParticipantDto
     {
-        public EventParticipantDto()
-        {
-            Id = Guid.NewGuid();
-        }
-
         public Guid Id { get; set; }
 
         public Guid EventId { get; set; }

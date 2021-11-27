@@ -1,4 +1,4 @@
-import {makeAutoObservable, reaction} from "mobx";
+import {makeAutoObservable} from "mobx";
 import {Course} from "../models/course";
 import agent from '../api/agent';
 

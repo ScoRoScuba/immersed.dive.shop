@@ -33,7 +33,9 @@ namespace immersed.dive.shop.repository
         }
 
         public DbSet<Course> Courses { get; set; }
-        public DbSet<Person> Persons { get; set; }
+        public DbSet<Person> People { get; set; }
+
+        public DbSet<EventDate> EventDates{ get; set; }
 
         public DbSet<Event> Events { get; set; }
         public DbSet<EventParticipant> EventParticipants{ get; set; }

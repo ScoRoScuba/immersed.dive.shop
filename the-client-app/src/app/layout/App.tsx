@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import './styles.css';
 import NavBar from './NavBar';
 import {Container, Header} from 'semantic-ui-react';
@@ -6,9 +6,6 @@ import { Route, Switch } from 'react-router';
 import HomePage from '../../features/home/HomePage';
 import CoursesDashboard from '../../features/courses/CoursesDashboard';
 import Dashboard from '../../features/dashboard/Dashboard';
-import agent from '../api/agent';
-import { userInfo } from 'os';
-import { useStore } from '../stores/store';
 
 export default function App() {
         return(

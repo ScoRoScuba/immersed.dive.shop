@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,12 @@ namespace immersed.dive.shop.webapi
 
                 await context.Database.MigrateAsync();
 
-                await services.SeedData();
+                if (args.Length > 0)
+                {
+                    if(args.Contains("reseed")){
+                        await services.SeedData(context);
+                    }
+                }
             }
 
             catch (Exception ex)

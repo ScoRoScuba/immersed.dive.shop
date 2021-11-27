@@ -34,7 +34,7 @@ namespace immersed.dive.shop.repository
 
         public async Task<IList<Person>> GetAllAsync()
         {
-            return await _dataContext.Persons.AsQueryable().ToListAsync();
+            return await _dataContext.People.AsQueryable().ToListAsync();
         }
 
         public Task<int> UpdateAsync(Person entity)
@@ -50,12 +50,12 @@ namespace immersed.dive.shop.repository
 
         public async Task<Person> FindAsync(Expression<Func<Person, bool>> predicate)
         {
-            return await _dataContext.Persons.SingleOrDefaultAsync(predicate);
+            return await _dataContext.People.SingleOrDefaultAsync(predicate);
         }
 
         public async Task<IList<Person>> MatchAsync(ICriteria<Person> criteria)
         {
-            return await criteria.MatchQueryFromAsync(_dataContext.Persons);
+            return await criteria.MatchQueryFromAsync(_dataContext.People);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac.Extensions.DependencyInjection;
 using immersed.dive.shop.repository;
+using immersed.dive.shop.webapi.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -50,6 +51,8 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
                         .AddEntityFrameworkInMemoryDatabase()
                         .AddEntityFrameworkProxies()
                         .BuildServiceProvider();
+
+                services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
                 // Add a database context (AppDbContext) using an in-memory database for testing.
                 services.AddDbContext<DiveShopDBContext>(options =>

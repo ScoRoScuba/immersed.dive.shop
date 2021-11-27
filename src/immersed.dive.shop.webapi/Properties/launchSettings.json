@@ -19,6 +19,7 @@
     },
     "immersed.dive.shop.webapi": {
       "commandName": "Project",
+      "commandLineArgs": "reseed",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {

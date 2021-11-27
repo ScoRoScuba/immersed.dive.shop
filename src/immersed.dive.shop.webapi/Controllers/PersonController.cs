@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
+using immersed.dive.shop.webapi.WebDtos;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -13,11 +16,13 @@ namespace immersed.dive.shop.webapi.Controllers
     public class PersonController: ControllerBase
     {
         private readonly IPersonService _personService;
+        private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public PersonController(IPersonService personService, ILogger logger)
+        public PersonController(IPersonService personService, IMapper mapper, ILogger logger)
         {
             _personService = personService;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -34,7 +39,9 @@ namespace immersed.dive.shop.webapi.Controllers
         {
             var list = await _personService.GetAll();
 
-            return Ok(list);
+            var result = _mapper.Map<IList<Person>, IList<PersonDto>>(list);
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -46,7 +53,9 @@ namespace immersed.dive.shop.webapi.Controllers
                 return NotFound();
             }
 
-            return Ok(person);
+            var result = _mapper.Map<Person, PersonDto>(person);
+
+            return Ok(result);
         }
 
 

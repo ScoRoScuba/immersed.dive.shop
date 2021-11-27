@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using immersed.dive.shop.repository;
 
 namespace immersed.dive.shop.repository.Migrations
 {
     [DbContext(typeof(DiveShopDBContext))]
-    partial class DiveShopDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211117184929_changed persons to people")]
+    partial class changedpersonstopeople
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,7 +100,7 @@ namespace immersed.dive.shop.repository.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("EventDates");
+                    b.ToTable("EventDate");
                 });
 
             modelBuilder.Entity("immersed.dive.shop.model.EventParticipant", b =>

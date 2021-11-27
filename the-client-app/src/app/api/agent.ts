@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import {Course} from '../models/course';
+import {Event} from '../models/event';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -26,8 +27,13 @@ const Courses ={
     list : () => requests.get<Course[]>('/Courses'),    
 }
 
+const Events ={ 
+    list : () => requests.get<Event[]>('/Events'),    
+}
+
 const agent = {
     Courses,
+    Events,
 }
 
 export default agent;

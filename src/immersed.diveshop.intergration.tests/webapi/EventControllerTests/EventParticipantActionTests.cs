@@ -36,9 +36,9 @@ namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
             _dbContext.Courses.Add(new Course{Id = courseGuid1});
             _dbContext.Courses.Add(new Course{Id= courseGuid2});
 
-            _dbContext.Persons.Add(new Person{ Id = personGuid1 });
-            _dbContext.Persons.Add(new Person { Id = personGuid2 });
-            _dbContext.Persons.Add(new Person { Id = personGuid3 });
+            _dbContext.People.Add(new Person{ Id = personGuid1 });
+            _dbContext.People.Add(new Person { Id = personGuid2 });
+            _dbContext.People.Add(new Person { Id = personGuid3 });
 
             _dbContext.Events.Add(new Event()
             {
@@ -102,7 +102,7 @@ namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
         public async void CanGetParticipantOnEventReturnsEventParticpant()
         {
             var testPersonGuid = Guid.NewGuid();
-            _dbContext.Persons.Add(new Person { Id = testPersonGuid });
+            _dbContext.People.Add(new Person { Id = testPersonGuid });
             
             var jsonPayload = JsonConvert.SerializeObject(testPersonGuid);
 

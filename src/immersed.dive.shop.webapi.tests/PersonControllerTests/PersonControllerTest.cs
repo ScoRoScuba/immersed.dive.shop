@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
 using immersed.dive.shop.webapi.Controllers;
+using immersed.dive.shop.webapi.Core;
+using immersed.dive.shop.webapi.WebDtos;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Serilog;
@@ -14,14 +17,25 @@ namespace immersed.dive.shop.webapi.tests.PersonControllerTests
 {
     public class PersonControllerTest
     {
-        private Mock<ILogger> mockLogger = new Mock<ILogger>();
+        private Mock<ILogger> mockLogger = new ();
+        private IMapper mapper;
+
+        public PersonControllerTest()
+        {
+            var mapperConfiguration = new MapperConfiguration(conf =>
+            {
+                conf.AddProfile(new MappingProfiles());
+            });
+
+            mapper = new AutoMapper.Mapper(mapperConfiguration);
+        }
 
         [Fact]
         public async Task POST_ReturnsAcceptedResultWithUrl()
         {
             var mockService = new Mock<IPersonService>();
 
-            var controller = new PersonController(mockService.Object, mockLogger.Object);
+            var controller = new PersonController(mockService.Object, new Mock<IMapper>().Object, mockLogger.Object);
 
             var person = new Person();
 
@@ -43,13 +57,13 @@ namespace immersed.dive.shop.webapi.tests.PersonControllerTests
                 new()
             });
 
-            var controller = new PersonController(mockService.Object, mockLogger.Object);
+            var controller = new PersonController(mockService.Object, mapper, mockLogger.Object);
 
             var result = await controller.Get();
 
             var okObjectResult = result as OkObjectResult;
 
-            _ = IsAssignableFrom<IList<Person>>(okObjectResult.Value);
+            _ = IsAssignableFrom<IList<PersonDto>>(okObjectResult.Value);
         }
 
         [Fact]
@@ -59,7 +73,7 @@ namespace immersed.dive.shop.webapi.tests.PersonControllerTests
 
             mockService.Setup(g => g.Get(It.IsAny<Guid>())).ReturnsAsync(() => null);
 
-            var controller = new PersonController(mockService.Object, mockLogger.Object);
+            var controller = new PersonController(mockService.Object, new Mock<IMapper>().Object, mockLogger.Object);
 
             var result = await controller.Get(Guid.Empty);
 

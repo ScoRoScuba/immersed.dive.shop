@@ -5,6 +5,7 @@ using AutoMapper;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
 using immersed.dive.shop.webapi.Controllers;
+using immersed.dive.shop.webapi.Core;
 using immersed.dive.shop.webapi.WebDtos;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -18,6 +19,18 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
     {
         private Mock<ILogger> mockLogger = new Mock<ILogger>();
 
+        private readonly IMapper mapper;
+
+        public CoursesControllerTests()
+        {
+            var mapperConfiguration = new MapperConfiguration(conf =>
+            {
+                conf.AddProfile(new MappingProfiles());
+            });
+
+            mapper = new AutoMapper.Mapper(mapperConfiguration);
+        }
+
         [Fact]
         public async Task GET_ReturnsOkResultWithCourses()
         {
@@ -29,13 +42,13 @@ namespace immersed.dive.shop.webapi.tests.CoursesControllerTests
                 new()
             });
 
-            var controller = new CoursesController(mockService.Object, new Mock<IMapper>().Object, mockLogger.Object);
+            var controller = new CoursesController(mockService.Object, mapper, mockLogger.Object);
 
             var result = await controller.Get();
 
             var okObjectResult = result as OkObjectResult;
             
-            _ = IsAssignableFrom<IList<Course>>(okObjectResult.Value);
+            _ = IsAssignableFrom<IList<CourseDto>>(okObjectResult.Value);
         }
 
         [Fact]

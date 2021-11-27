@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using immersed.dive.shop.model;
 
 namespace immersed.dive.shop.webapi.WebDtos
 {
@@ -8,7 +7,7 @@ namespace immersed.dive.shop.webapi.WebDtos
     {
         public EventDto()
         {
-            Participants = new List<PersonDto>();
+            Participants = new List<EventParticipantDto>();
             Dates = new List<EventDateDto>();
         }
 
@@ -17,7 +16,7 @@ namespace immersed.dive.shop.webapi.WebDtos
         public DateTime StartDate { get; set; }
         public string Description { get; set; }
 
-        public List<PersonDto> Participants { get; set; }
+        public List<EventParticipantDto> Participants { get; set; }
         public List<EventDateDto> Dates { get; set; }
 
         public DateTime DateCreated { get; set; }

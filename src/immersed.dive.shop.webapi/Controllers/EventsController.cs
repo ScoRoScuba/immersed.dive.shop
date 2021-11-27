@@ -34,6 +34,16 @@ namespace immersed.dive.shop.webapi.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var @events = await _eventService.GetAllEvents();
+
+            var result = _mapper.Map<IList<Event>, IList<EventDto>>(@events);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("{eventId:guid}")]
         public async Task<IActionResult> Get(Guid eventId)
         {

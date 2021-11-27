@@ -82,5 +82,10 @@ namespace immersed.dive.shop.application
         {
             return await _eventDataStore.FindAsync(c => c.Id == eventId);
         }
+
+        public async Task<IList<Event>> GetAllEvents()
+        {
+            return await _eventDataStore.GetAllAsync();
+        }
     }
 }
