@@ -11,15 +11,16 @@ export default class EventStore {
     loadingEvents = false;    
     loadingInitial = false;
 
-    predicate = new Map().set('week', true)
-
+    predicate = new Map()
+                    .set('calender', 'thisweek')
+                    .set('course', 'all');
 
     constructor() {
         makeAutoObservable(this);
         // do we need a reaction to autoload ?
 
         reaction( 
-            () => this.predicate.keys(),
+            () => this.predicate.values(),
             () => {
                 this.activeEvents.clear();
                 this.loadEvents();
@@ -27,14 +28,25 @@ export default class EventStore {
         )
     }
 
+    setPredicate = (predicate: string, value: string | Date) => {
+        switch(predicate)
+        {
+            case 'calender' :
+                this.predicate.delete('calendar');
+                this.predicate.set('calendar', value);
+                break;
+            default:
+                this.predicate.delete('course');
+                this.predicate.set('course', value);
+        }
+    }
+
     get allEVents() {
         return this.activeEvents;
     }
 
     get eventsSortedByDate () {
-
         var array = Array.from(this.activeEvents.values());
-
         return array.sort((a,b)=> a.dateCreated!.getTime() - b.dateCreated!.getTime());        
     }
 
@@ -43,12 +55,21 @@ export default class EventStore {
     }   
     
     private setEvent( event : Event ){
-
         event.dateCreated = new Date(event.dateCreated!);
         event.lastUpdated = new Date(event.lastUpdated!);
         event.startDate = new Date(event.startDate!);
 
         this.activeEvents.set(event.id!, event)
+    }
+
+    get axiosParams() {
+        const params = new URLSearchParams();
+
+        this.predicate.forEach((value, key) => {
+            params.append(key, value)
+        });
+
+        return params;
     }
 
     loadEvents = async () => {
@@ -57,7 +78,7 @@ export default class EventStore {
         this.setLoadingInitial(true);
 
         try{
-            const results = await agent.Events.list();
+            const results = await agent.Events.list(this.axiosParams);
 
             results.forEach( event => {
                 this.setEvent(event);    

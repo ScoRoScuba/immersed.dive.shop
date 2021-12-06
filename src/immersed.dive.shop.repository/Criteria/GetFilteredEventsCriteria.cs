@@ -28,7 +28,9 @@ namespace immersed.dive.shop.repository.Criteria
                     .Include(d=>d.Dates)
                     .Where(ep => 
                         ep.Dates.Any( dt=>dt.Date >= _dateSpan.StartDate && dt.Date <= _dateSpan.EndDate) && 
-                        (_eventFilterParams.course == "All" || _eventFilterParams.course == null ? ep.Course.Name != "All" : ep.Course.Name == _eventFilterParams.course))
+                        ( _eventFilterParams.course.ToLower() == "all" || _eventFilterParams.course == null ? 
+                            ep.Course.Name.ToLower() != "all" : 
+                            ep.Course.Name.ToLower() == _eventFilterParams.course.ToLower()))
                         .ToListAsync();
         }
 

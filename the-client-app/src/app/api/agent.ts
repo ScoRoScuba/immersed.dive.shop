@@ -28,7 +28,7 @@ const Courses ={
 }
 
 const Events ={ 
-    list : () => requests.get<Event[]>('/Events'),    
+    list : (params:URLSearchParams) => axios.get<Event[]>('/Events', {params}).then(responseBody),    
 }
 
 const agent = {

@@ -17,6 +17,32 @@ export default observer( function EventsList() {
         <>
         <Table singleLine selectable>
           <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell colSpan='5'>
+            <Button
+                floated='left'
+                icon
+                labelPosition='left'
+                primary
+                size='small'
+              >
+                <Icon name='add' /> Add Event
+              </Button>
+              <Menu floated='right' pagination>
+                <Menu.Item as='a' icon>
+                  <Icon name='chevron left' />
+                </Menu.Item>
+                <Menu.Item as='a'>1</Menu.Item>
+                <Menu.Item as='a'>2</Menu.Item>
+                <Menu.Item as='a'>3</Menu.Item>
+                <Menu.Item as='a'>4</Menu.Item>
+                <Menu.Item as='a' icon>
+                  <Icon name='chevron right' />
+                </Menu.Item>
+              </Menu>
+            </Table.HeaderCell>
+          </Table.Row>
+
             <Table.Row>
               <Table.HeaderCell>Course</Table.HeaderCell>
               <Table.HeaderCell>Dates</Table.HeaderCell>

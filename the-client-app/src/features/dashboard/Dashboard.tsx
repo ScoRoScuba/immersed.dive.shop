@@ -1,35 +1,26 @@
 import React from "react";
 import { Grid, Header, Image } from "semantic-ui-react";
-import Events from "./events/Events";
 import Courses from "./courses/Courses";
 import { observer } from "mobx-react-lite";
+import EventsList from "./events/EventsList";
+import EventsFilter from "./events/EventsFilter";
 
 export default observer( function Dashboard() {
 
     return (
         <>
             <Header as='h2'>
-                Dashboard
+                Courses
             </Header>
 
             <Grid>
                 <Grid.Column width="12">
-                    <Events />
+                    <EventsList />
                 </Grid.Column>
                 <Grid.Column width="4">
-                    filters
+                    <EventsFilter/>
                 </Grid.Column>
             </Grid>
-            <Grid>        
-                <Grid.Column width="6">
-                    <Courses/>
-                </Grid.Column>
-                <Grid.Column width="6">
-                    <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
-                </Grid.Column>        
-            </Grid>
-
-
         </>
     );
 })
