@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using immersed.dive.shop.model.FilterParams;
 
 namespace immersed.dive.shop.domain.interfaces
 {
@@ -14,5 +15,6 @@ namespace immersed.dive.shop.domain.interfaces
         Task<Event> Get(Guid eventId);
 
         Task<IList<Event>> GetAllEvents();
+        Task<IList<Event>> GetFilteredEvents(EventFilterParams eventFilterParams);
     }
 }

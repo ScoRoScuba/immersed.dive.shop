@@ -6,13 +6,13 @@ using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using Microsoft.EntityFrameworkCore;
 
-namespace immersed.dive.shop.repository
+namespace immersed.dive.shop.repository.Criteria
 {
-    public class GetEventParticipant : ICriteria<EventParticipant>
+    public class GetEventParticipantCriteria : ICriteria<EventParticipant>
     {
         private readonly Guid _eventParticipantId;
 
-        public GetEventParticipant(Guid eventParticipantId)
+        public GetEventParticipantCriteria(Guid eventParticipantId)
         {
             _eventParticipantId = eventParticipantId;
         }

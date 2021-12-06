@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using AutoMapper;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
+using immersed.dive.shop.model.FilterParams;
 using immersed.dive.shop.webapi.WebDtos;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -34,11 +36,20 @@ namespace immersed.dive.shop.webapi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] EventFilterParams? eventFilterParams = null)
         {
-            var @events = await _eventService.GetAllEvents();
+            IList<Event> events = new List<Event>();
 
-            var result = _mapper.Map<IList<Event>, IList<EventDto>>(@events);
+            if (eventFilterParams == null)
+            {
+                events = await _eventService.GetAllEvents();
+            }
+            else
+            {
+                events = await _eventService.GetFilteredEvents(eventFilterParams);
+            }
+
+            var result = _mapper.Map<IList<Event>, IList<EventDto>>(events);
 
             return Ok(result);
         }

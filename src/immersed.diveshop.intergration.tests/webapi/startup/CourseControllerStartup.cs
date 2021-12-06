@@ -3,6 +3,7 @@ using immersed.dive.shop.application;
 using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.application.Person;
 using immersed.dive.shop.repository;
+using immersed.dive.shop.repository.Criteria;
 using immersed.dive.shop.webapi.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,10 @@ namespace immersed.diveshop.intergration.tests.webapi.startup
 
             builder.RegisterType<EventParticipantService>().AsImplementedInterfaces();
             builder.RegisterType<EventParticipantStore>().AsImplementedInterfaces();
+
+            builder.RegisterType<EventDateFilterBuilder>().AsImplementedInterfaces();
+
+            builder.RegisterType<DateTimeProvider>().AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

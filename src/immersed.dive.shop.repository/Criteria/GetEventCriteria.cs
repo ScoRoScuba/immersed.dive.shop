@@ -6,7 +6,7 @@ using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using Microsoft.EntityFrameworkCore;
 
-namespace immersed.dive.shop.repository
+namespace immersed.dive.shop.repository.Criteria
 {
     public class GetEventCriteria : ICriteria<Event>
     {

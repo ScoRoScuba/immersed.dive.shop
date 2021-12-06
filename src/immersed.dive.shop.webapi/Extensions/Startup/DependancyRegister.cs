@@ -3,6 +3,7 @@ using immersed.dive.shop.application;
 using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.application.Person;
 using immersed.dive.shop.repository;
+using immersed.dive.shop.repository.Criteria;
 using Microsoft.Extensions.Configuration;
 
 namespace immersed.dive.shop.webapi.Extensions.Startup
@@ -22,6 +23,11 @@ namespace immersed.dive.shop.webapi.Extensions.Startup
 
             containerBuilder.RegisterType<EventParticipantService>().AsImplementedInterfaces();
             containerBuilder.RegisterType<EventParticipantStore>().AsImplementedInterfaces();
+
+            containerBuilder.RegisterType<EventDateFilterBuilder>().AsImplementedInterfaces();
+
+            containerBuilder.RegisterType<DateTimeProvider>().AsImplementedInterfaces();
+
 
             return containerBuilder;
         }

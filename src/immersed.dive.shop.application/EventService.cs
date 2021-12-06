@@ -6,7 +6,9 @@ using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
+using immersed.dive.shop.model.FilterParams;
 using immersed.dive.shop.repository;
+using immersed.dive.shop.repository.Criteria;
 using Serilog;
 
 namespace immersed.dive.shop.application
@@ -15,12 +17,14 @@ namespace immersed.dive.shop.application
     {
         private readonly IDataStore<Event> _eventDataStore;
         private readonly IEventParticipantService _eventParticipantService;
+        private readonly IEventDateFilterBuilder _eventDateFilterBuilder;
         private readonly ILogger _logger;
 
-        public EventService(IDataStore<Event> eventDataStore, IEventParticipantService eventParticipantService, ILogger logger)
+        public EventService(IDataStore<Event> eventDataStore, IEventParticipantService eventParticipantService, IEventDateFilterBuilder eventDateFilterBuilder, ILogger logger)
         {
             _eventDataStore = eventDataStore;
             _eventParticipantService = eventParticipantService;
+            _eventDateFilterBuilder = eventDateFilterBuilder;
             _logger = logger;
         }
 
@@ -86,6 +90,13 @@ namespace immersed.dive.shop.application
         public async Task<IList<Event>> GetAllEvents()
         {
             return await _eventDataStore.GetAllAsync();
+        }
+
+        public async Task<IList<Event>> GetFilteredEvents(EventFilterParams eventFilterParams)
+        {
+            var dateCriteria = _eventDateFilterBuilder.GetDateCriteria(eventFilterParams.calendar);
+
+            return await _eventDataStore.MatchAsync(new GetFilteredEventsCriteria(eventFilterParams, dateCriteria));
         }
     }
 }

@@ -6,6 +6,7 @@ using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using immersed.dive.shop.repository;
+using immersed.dive.shop.repository.Criteria;
 using Serilog;
 
 namespace immersed.dive.shop.application
@@ -23,7 +24,7 @@ namespace immersed.dive.shop.application
 
         public async Task<List<model.Person>> GetParticipants(Guid courseId)
         {
-            var result = await _eventParticipantDataStore.MatchAsync(new EventParticipantsQuery(courseId));
+            var result = await _eventParticipantDataStore.MatchAsync(new EventParticipantsCriteria(courseId));
 
             if( result.Any()){
                 return result.Select(cp => cp.Participant).ToList();
@@ -34,7 +35,7 @@ namespace immersed.dive.shop.application
 
         public async Task<EventParticipant> GetParticipant(Guid eventParticipantId)
         {
-            var result = await _eventParticipantDataStore.MatchAsync(new GetEventParticipant(eventParticipantId));
+            var result = await _eventParticipantDataStore.MatchAsync(new GetEventParticipantCriteria(eventParticipantId));
 
             return result.FirstOrDefault();
         }
