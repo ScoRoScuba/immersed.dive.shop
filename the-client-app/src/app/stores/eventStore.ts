@@ -22,7 +22,7 @@ export default class EventStore {
         reaction( 
             () => this.predicate.values(),
             () => {
-                this.activeEvents.clear();
+                this.activeEvents.clear();                        
                 this.loadEvents();
             }
         )
