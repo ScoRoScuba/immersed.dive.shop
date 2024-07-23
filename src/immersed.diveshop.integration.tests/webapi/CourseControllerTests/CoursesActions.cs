@@ -27,7 +27,7 @@ namespace immersed.diveshop.intergration.tests.webapi.CourseControllerTests
             var jsonPayload = JsonConvert.SerializeObject(postCourse);
 
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-            var result = _client.PostAsync("/courses", content).Result;
+            var result = await _client.PostAsync("/courses", content);
 
             Assert.True(result.IsSuccessStatusCode);
             Assert.True( result.StatusCode == HttpStatusCode.Created);

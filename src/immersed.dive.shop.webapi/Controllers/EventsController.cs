@@ -36,7 +36,7 @@ namespace immersed.dive.shop.webapi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] EventFilterParams? eventFilterParams = null)
+        public async Task<IActionResult> GetAll([FromQuery] EventFilterParams eventFilterParams = null)
         {
             IList<Event> events = new List<Event>();
 

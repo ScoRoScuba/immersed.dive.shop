@@ -11,7 +11,7 @@ namespace immersed.dive.shop.repository.Migrations
 {
     [DbContext(typeof(DiveShopDBContext))]
     [Migration("20211117185747_add event dates to context")]
-    partial class addeventdatestocontext
+    partial class AddEventDatesToContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

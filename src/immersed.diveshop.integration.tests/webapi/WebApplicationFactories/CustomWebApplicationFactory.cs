@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Proxies;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -19,18 +18,7 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup: class
     {
         private InMemoryDatabaseRoot _databaseRoot;
-        private InMemoryDatabaseRoot DatabaseRoot               
-        {
-            get
-            {
-                if (_databaseRoot == null)
-                {
-                    _databaseRoot = new InMemoryDatabaseRoot();
-                }
-
-                return _databaseRoot;
-            }
-        }
+        private InMemoryDatabaseRoot DatabaseRoot => _databaseRoot ??= new InMemoryDatabaseRoot();
 
         protected override IHostBuilder CreateHostBuilder()
         {
@@ -68,24 +56,22 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
                 var sp = services.BuildServiceProvider();
 
                 // Create a scope to obtain a reference to the database contexts
-                using (var scope = sp.CreateScope())
+                using var scope = sp.CreateScope();
+                var scopedServices = scope.ServiceProvider;
+                var appDb = scopedServices.GetRequiredService<DiveShopDBContext>();
+
+                var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
+                // Ensure the database is created.
+                appDb.Database.EnsureCreated();
+
+                try
                 {
-                    var scopedServices = scope.ServiceProvider;
-                    var appDb = scopedServices.GetRequiredService<DiveShopDBContext>();
-
-                    var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-                    // Ensure the database is created.
-                    appDb.Database.EnsureCreated();
-
-                    try
-                    {
 
 
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, "An error occurred seeding the " + "database with test messages. Error: {ex.Message}");
-                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, $"An error occurred seeding the database with test messages. Error: {ex.Message}");
                 }
             });
         }

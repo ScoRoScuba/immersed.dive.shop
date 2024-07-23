@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using immersed.dive.shop.application.Person;
 using immersed.dive.shop.domain.interfaces.Data;
 using Moq;
@@ -16,7 +17,7 @@ namespace immersed.dive.shop.application.tests.PersonServiceTests
         private Mock<ILogger> mockLogger = new Mock<ILogger>();
 
         [Fact]
-        public async void GetAllReturnsAllPersons()
+        public async Task GetAllReturnsAllPersons()
         {
             var mockDataStore = new Mock<IDataStore<model.Person>>();
 
@@ -36,7 +37,7 @@ namespace immersed.dive.shop.application.tests.PersonServiceTests
         }
 
         [Fact]
-        public async void GetByIdReturnsPersonThatExists()
+        public async Task GetByIdReturnsPersonThatExists()
         {
             var mockDataStore = new Mock<IDataStore<model.Person>>();
 
@@ -61,7 +62,7 @@ namespace immersed.dive.shop.application.tests.PersonServiceTests
         }
 
         [Fact]
-        public async void GetByIdReturnsCourseDoesNotExist()
+        public async Task GetByIdReturnsCourseDoesNotExist()
         {
             var mockDataStore = new Mock<IDataStore<model.Person>>();
 

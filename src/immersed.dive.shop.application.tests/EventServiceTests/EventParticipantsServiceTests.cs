@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using Moq;
@@ -12,7 +13,7 @@ namespace immersed.dive.shop.application.tests.EventServiceTests
         private Mock<ILogger> mockLogger = new Mock<ILogger>();
 
         [Fact]
-        public async void GetEventParticipantsReturnsListOfPersonsOnCourse()
+        public async Task GetEventParticipantsReturnsListOfPersonsOnCourse()
         {
             var mockDataStore = new Mock<IDataStore<EventParticipant>>();
 

@@ -29,7 +29,7 @@ namespace immersed.diveshop.intergration.tests.webapi
             var jsonPayload = JsonConvert.SerializeObject(postPerson);
 
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-            var result = _client.PostAsync("/Person", content).Result;
+            var result = await _client.PostAsync("/Person", content);
 
             Assert.True(result.IsSuccessStatusCode);
             Assert.True(result.StatusCode == HttpStatusCode.Created);

@@ -11,7 +11,7 @@ namespace immersed.dive.shop.repository.Migrations
 {
     [DbContext(typeof(DiveShopDBContext))]
     [Migration("20211117184929_changed persons to people")]
-    partial class changedpersonstopeople
+    partial class ChangedPersonsToPeople
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

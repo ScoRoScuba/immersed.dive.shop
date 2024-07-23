@@ -2,7 +2,7 @@
 
 namespace immersed.dive.shop.repository.Migrations
 {
-    public partial class changedpersonstopeople : Migration
+    public partial class ChangedPersonsToPeople : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

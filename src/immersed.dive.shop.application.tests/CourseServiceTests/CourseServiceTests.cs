@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using immersed.dive.shop.application.Courses;
@@ -17,15 +18,15 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
         private Mock<ILogger> mockLogger = new Mock<ILogger>();
 
         [Fact]
-        public async void GetAllReturnsAllCourses()
+        public async Task GetAllReturnsAllCourses()
         {
             var mockDataStore = new Mock<IDataStore<Course>>();
 
             mockDataStore.Setup( d=>d.GetAllAsync()).ReturnsAsync(()=> new List<Course>
             {
-                new Course(),
-                new Course(),
-                new Course()
+                new(),
+                new(),
+                new()
             });
 
             var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
@@ -37,7 +38,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
         }
 
         [Fact]
-        public async void GetByIdReturnsCourseThatExists()
+        public async Task GetByIdReturnsCourseThatExists()
         {
             var mockDataStore = new Mock<IDataStore<Course>>();
 
@@ -62,7 +63,7 @@ namespace immersed.dive.shop.application.tests.CourseServiceTests
         }
 
         [Fact]
-        public async void GetByIdReturnsCourseDoesNotExist()
+        public async Task GetByIdReturnsCourseDoesNotExist()
         {
             var mockDataStore = new Mock<IDataStore<Course>>();
 

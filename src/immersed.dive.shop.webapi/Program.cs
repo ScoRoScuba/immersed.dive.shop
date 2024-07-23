@@ -1,14 +1,113 @@
 using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+using System.IO;
 using Microsoft.Extensions.Hosting;
-using Autofac.Extensions.DependencyInjection;
-using immersed.dive.shop.repository;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Serilog;
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using immersed.dive.shop.webapi.Extensions;
+using Swashbuckle.AspNetCore.Filters;
+using OpenTelemetry.Extensions.Hosting;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
+var builder = WebApplication.CreateBuilder(args);
+
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
+
+builder.Configuration.AddConfiguration(new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", true, false)
+    .AddJsonFile($"appsettings.{env.ToString().ToLower()}.json", true)
+    .AddUserSecrets<Program>(true)
+    .AddEnvironmentVariables()
+    .Build());
+
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
+
+// Add services to the container.
+var apiVersionBuilder = builder.Services.AddApiVersioning(opt =>
+{
+    opt.DefaultApiVersion = new ApiVersion(1, 0);
+    opt.AssumeDefaultVersionWhenUnspecified = true;
+    opt.ReportApiVersions = true;
+    opt.ApiVersionReader = ApiVersionReader.Combine(
+        new UrlSegmentApiVersionReader(),
+        new HeaderApiVersionReader("x-api-version"),
+        new MediaTypeApiVersionReader("x-api-version"));
+});
+
+// Add ApiExplorer to discover versions
+apiVersionBuilder.AddApiExplorer(setup =>
+{
+    setup.GroupNameFormat = "'v'VVV";
+    setup.SubstituteApiVersionInUrl = true;
+});
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService("immersed.dive.shop.webapi"))
+    .WithTracing(tracing => tracing
+        .AddAspNetCoreInstrumentation()
+        .AddConsoleExporter())
+    .WithMetrics(metrics => metrics
+        .AddAspNetCoreInstrumentation()
+        .AddConsoleExporter());;
+
+//builder.Services.AddDapper(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+//builder.Services.AddServices();
+
+builder.Services.AddControllers().AddNewtonsoftJson();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.OperationFilter<AddResponseHeadersFilter>();
+    c.EnableAnnotations();
+});
+
+builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
+builder.Services.AddHealthChecks();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+    });
+}
+
+// Configure the HTTP request pipeline.
+
+app.MapHealthChecks("/health");
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+/*
 namespace immersed.dive.shop.webapi
 {
     public class Program
@@ -54,3 +153,4 @@ namespace immersed.dive.shop.webapi
                 });
     }
 }
+*/

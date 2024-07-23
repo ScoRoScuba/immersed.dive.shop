@@ -36,7 +36,7 @@ namespace immersed.dive.shop.webapi.tests.EventControllerTests
         }
 
         [Fact]
-        public async void GET_CourseParticipantsReturnsPersonsOnCourse()
+        public async Task GET_CourseParticipantsReturnsPersonsOnCourse()
         {
             var mockService = new Mock<IEventService>();
 

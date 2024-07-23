@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using immersed.dive.shop.model;
 using immersed.dive.shop.repository;
 using immersed.dive.shop.webapi.WebDtos;
@@ -70,7 +71,7 @@ namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
         }
 
         [Fact]
-        public async void CanGetParticipantsInEvent()
+        public async Task CanGetParticipantsInEvent()
         {
             var courseResponse = await _client.GetAsync($"events/{eventGuid1}/participants");
 
@@ -85,7 +86,7 @@ namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
         }
 
         [Fact]
-        public async void AddingParticipantToEventReturnsEventParticpantURI()
+        public async Task AddingParticipantToEventReturnsEventParticpantURI()
         {
             var testPersonGuid = Guid.NewGuid();
             var jsonPayload = JsonConvert.SerializeObject(testPersonGuid);
@@ -99,7 +100,7 @@ namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
         }
 
         [Fact(Skip = "Works for real not in test")]
-        public async void CanGetParticipantOnEventReturnsEventParticpant()
+        public async Task CanGetParticipantOnEventReturnsEventParticpant()
         {
             var testPersonGuid = Guid.NewGuid();
             _dbContext.People.Add(new Person { Id = testPersonGuid });

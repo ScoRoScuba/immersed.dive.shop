@@ -11,7 +11,7 @@ namespace immersed.dive.shop.repository.Migrations
 {
     [DbContext(typeof(DiveShopDBContext))]
     [Migration("20211101213302_intial")]
-    partial class intial
+    partial class Intial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

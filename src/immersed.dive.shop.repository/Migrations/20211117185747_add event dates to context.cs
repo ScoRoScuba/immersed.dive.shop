@@ -2,7 +2,7 @@
 
 namespace immersed.dive.shop.repository.Migrations
 {
-    public partial class addeventdatestocontext : Migration
+    public partial class AddEventDatesToContext : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
