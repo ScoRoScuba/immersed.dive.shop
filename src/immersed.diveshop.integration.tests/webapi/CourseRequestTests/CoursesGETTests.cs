@@ -9,12 +9,12 @@ using immersed.diveshop.intergration.tests.webapi.WebApplicationFactories;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace immersed.diveshop.intergration.tests.webapi.CourseControllerTests
+namespace immersed.diveshop.intergration.tests.webapi.CourseRequestTests
 {
-    public class CoursesActions :IClassFixture<CustomWebApplicationFactory<CourseControllerStartup>>
+    public class CoursesGetTests :IClassFixture<CustomWebApplicationFactory<CourseControllerStartup>>
     {
         private readonly HttpClient _client;
-        public CoursesActions(CustomWebApplicationFactory<CourseControllerStartup> factory)
+        public CoursesGetTests(CustomWebApplicationFactory<CourseControllerStartup> factory)
         {
             _client = factory.CreateClient();
         }

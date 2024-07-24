@@ -13,9 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
+namespace immersed.diveshop.intergration.tests.webapi.EventRequestTests
 {
-    public class EventParticipantActionTests : IClassFixture<CustomWebApplicationFactory<CourseControllerStartup>>
+    public class EventParticipantGETTests : IClassFixture<CustomWebApplicationFactory<CourseControllerStartup>>
     {
         private readonly HttpClient _client;
         private readonly DiveShopDBContext _dbContext;
@@ -28,7 +28,7 @@ namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
         private Guid personGuid2 = Guid.NewGuid();
         private Guid personGuid3 = Guid.NewGuid();
 
-        public EventParticipantActionTests(CustomWebApplicationFactory<CourseControllerStartup> factory)
+        public EventParticipantGETTests(CustomWebApplicationFactory<CourseControllerStartup> factory)
         {
             _client = factory.CreateClient();
             
