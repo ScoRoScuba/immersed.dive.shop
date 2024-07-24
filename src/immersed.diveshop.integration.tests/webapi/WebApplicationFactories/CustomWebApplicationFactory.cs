@@ -1,5 +1,4 @@
 ﻿using System;
-using Autofac.Extensions.DependencyInjection;
 using immersed.dive.shop.repository;
 using immersed.dive.shop.webapi.Core;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +22,6 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
         protected override IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder()
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(x =>
                 {
                     x.UseStartup<TStartup>().UseTestServer();
@@ -34,25 +32,25 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
         {
             builder.ConfigureServices(services =>
             {
-                // Create a new service provider.
-                var serviceProvider = new ServiceCollection()
-                        .AddEntityFrameworkInMemoryDatabase()
-                        .AddEntityFrameworkProxies()
-                        .BuildServiceProvider();
-
                 services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
                 // Add a database context (AppDbContext) using an in-memory database for testing.
-                services.AddDbContext<DiveShopDBContext>(options =>
+/*                services.AddDbContext<DiveShopDBContext>(options =>
                 {
                     options.UseLazyLoadingProxies();
                     options.UseInMemoryDatabase("InMemoryAppDb", DatabaseRoot);
                     options.UseInternalServiceProvider(serviceProvider);
-                });
+                });*/
+                
+                services.AddDbContext<DiveShopDBContext>(options =>
+                {
+//                    options.UseLazyLoadingProxies();
+                    options.UseInMemoryDatabase("InMemoryAppDb", DatabaseRoot);
+                });                 
 
                 services.AddSingleton(new Mock<ILogger>().Object);
 
-                // Build the service provider.
+/*                // Build the service provider.
                 var sp = services.BuildServiceProvider();
 
                 // Create a scope to obtain a reference to the database contexts
@@ -73,6 +71,7 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
                 {
                     logger.LogError(ex, $"An error occurred seeding the database with test messages. Error: {ex.Message}");
                 }
+                */
             });
         }
     }

@@ -31,8 +31,8 @@ namespace immersed.diveshop.intergration.tests.webapi.EventControllerTests
         public EventParticipantActionTests(CustomWebApplicationFactory<CourseControllerStartup> factory)
         {
             _client = factory.CreateClient();
-
-            _dbContext = factory.Services.GetService<DiveShopDBContext>();
+            
+            _dbContext = factory.Server.Services.GetService<DiveShopDBContext>();
 
             _dbContext.Courses.Add(new Course{Id = courseGuid1});
             _dbContext.Courses.Add(new Course{Id= courseGuid2});

@@ -1,7 +1,9 @@
-﻿using Autofac;
-using immersed.dive.shop.application;
+﻿using immersed.dive.shop.application;
 using immersed.dive.shop.application.Courses;
 using immersed.dive.shop.application.Person;
+using immersed.dive.shop.domain.interfaces;
+using immersed.dive.shop.domain.interfaces.Data;
+using immersed.dive.shop.model;
 using immersed.dive.shop.repository;
 using immersed.dive.shop.repository.Criteria;
 using immersed.dive.shop.webapi.Core;
@@ -21,23 +23,23 @@ namespace immersed.diveshop.intergration.tests.webapi.startup
             _configuration = configuration;
         }
 
-        public void ConfigureContainer(ContainerBuilder builder)
+        public void ConfigureContainer(IServiceCollection services)
         {
-            builder.RegisterType<CourseService>().AsImplementedInterfaces();
-            builder.RegisterType<CoursesStore>().AsImplementedInterfaces();
+            services.AddTransient<IDataStore<Course>, CoursesStore>();
+            services.AddTransient<ICourseService, CourseService>();
 
-            builder.RegisterType<PersonService>().AsImplementedInterfaces();
-            builder.RegisterType<PersonStore>().AsImplementedInterfaces();
+            services.AddTransient<IDataStore<Person>, PersonStore>();
+            services.AddTransient<IPersonService, PersonService>();
 
-            builder.RegisterType<EventService>().AsImplementedInterfaces();
-            builder.RegisterType<EventsStore>().AsImplementedInterfaces();
+            services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IDataStore<Event>, EventsStore>();
 
-            builder.RegisterType<EventParticipantService>().AsImplementedInterfaces();
-            builder.RegisterType<EventParticipantStore>().AsImplementedInterfaces();
+            services.AddTransient<IEventParticipantService, EventParticipantService>();
+            services.AddTransient<IDataStore<EventParticipant>, EventParticipantStore>();
 
-            builder.RegisterType<EventDateFilterBuilder>().AsImplementedInterfaces();
+            services.AddTransient<IEventDateFilterBuilder, EventDateFilterBuilder>();
 
-            builder.RegisterType<DateTimeProvider>().AsImplementedInterfaces();
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

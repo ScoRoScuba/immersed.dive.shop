@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.7" />
