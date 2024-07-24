@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 *.ncrunchsolution
 src/immersed.dive.shop.webapi/appsettings.json
+*.bkp
