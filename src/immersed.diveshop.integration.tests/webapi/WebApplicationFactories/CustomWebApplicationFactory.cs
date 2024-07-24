@@ -33,45 +33,14 @@ namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
             builder.ConfigureServices(services =>
             {
                 services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-
-                // Add a database context (AppDbContext) using an in-memory database for testing.
-/*                services.AddDbContext<DiveShopDBContext>(options =>
-                {
-                    options.UseLazyLoadingProxies();
-                    options.UseInMemoryDatabase("InMemoryAppDb", DatabaseRoot);
-                    options.UseInternalServiceProvider(serviceProvider);
-                });*/
                 
                 services.AddDbContext<DiveShopDBContext>(options =>
                 {
-//                    options.UseLazyLoadingProxies();
+                    options.UseLazyLoadingProxies();
                     options.UseInMemoryDatabase("InMemoryAppDb", DatabaseRoot);
                 });                 
 
                 services.AddSingleton(new Mock<ILogger>().Object);
-
-/*                // Build the service provider.
-                var sp = services.BuildServiceProvider();
-
-                // Create a scope to obtain a reference to the database contexts
-                using var scope = sp.CreateScope();
-                var scopedServices = scope.ServiceProvider;
-                var appDb = scopedServices.GetRequiredService<DiveShopDBContext>();
-
-                var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-                // Ensure the database is created.
-                appDb.Database.EnsureCreated();
-
-                try
-                {
-
-
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, $"An error occurred seeding the database with test messages. Error: {ex.Message}");
-                }
-                */
             });
         }
     }
