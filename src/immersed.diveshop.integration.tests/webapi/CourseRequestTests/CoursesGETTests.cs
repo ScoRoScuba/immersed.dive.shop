@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 using immersed.dive.shop.model;
 using immersed.diveshop.intergration.tests.webapi.startup;
 using immersed.diveshop.intergration.tests.webapi.WebApplicationFactories;
-using Newtonsoft.Json;
 using Xunit;
+using System.Text.Json;
 
 namespace immersed.diveshop.intergration.tests.webapi.CourseRequestTests
 {
     public class CoursesGetTests :IClassFixture<CustomWebApplicationFactory<CourseControllerStartup>>
     {
         private readonly HttpClient _client;
+        
+        private readonly JsonSerializerOptions _jsonSerializationOptions =  new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };        
         public CoursesGetTests(CustomWebApplicationFactory<CourseControllerStartup> factory)
         {
             _client = factory.CreateClient();
@@ -24,7 +29,7 @@ namespace immersed.diveshop.intergration.tests.webapi.CourseRequestTests
         {
             var postCourse = new Course();
 
-            var jsonPayload = JsonConvert.SerializeObject(postCourse);
+            var jsonPayload = JsonSerializer.Serialize(postCourse);
 
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
             var result = await _client.PostAsync("/courses", content);
@@ -37,9 +42,9 @@ namespace immersed.diveshop.intergration.tests.webapi.CourseRequestTests
 
             Assert.True(result.IsSuccessStatusCode);
             var contentFromGet = await courseResponse.Content.ReadAsStringAsync();
-
-            var getCourse = JsonConvert.DeserializeObject(contentFromGet, typeof(Course)) as Course;
-
+            
+            var getCourse  = JsonSerializer.Deserialize<Course>(contentFromGet, _jsonSerializationOptions);
+            
             Assert.True(postCourse.Id == getCourse.Id);
         }
 

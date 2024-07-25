@@ -4,18 +4,25 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using immersed.dive.shop.model;
 using immersed.diveshop.intergration.tests.webapi.startup;
 using immersed.diveshop.intergration.tests.webapi.WebApplicationFactories;
 using Newtonsoft.Json;
 using Xunit;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace immersed.diveshop.intergration.tests.webapi
 {
     public class PersonActions : IClassFixture<CustomWebApplicationFactory<PersonControllerStartup>>
     {
         private readonly HttpClient _client;
+        
+        private readonly JsonSerializerOptions _jsonSerializationOptions =  new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };        
         public PersonActions(CustomWebApplicationFactory<PersonControllerStartup> factory)
         {
             _client = factory.CreateClient();
@@ -40,8 +47,8 @@ namespace immersed.diveshop.intergration.tests.webapi
             Assert.True(result.IsSuccessStatusCode);
             var contentFromGet = await personResponse.Content.ReadAsStringAsync();
 
-            var getPerson = JsonConvert.DeserializeObject(contentFromGet, typeof(Person)) as Person;
-
+            var getPerson  = JsonSerializer.Deserialize<Person>(contentFromGet, _jsonSerializationOptions);
+            
             Assert.True(postPerson.Id == getPerson.Id);
         }
 
