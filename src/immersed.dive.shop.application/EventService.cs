@@ -11,92 +11,91 @@ using immersed.dive.shop.repository;
 using immersed.dive.shop.repository.Criteria;
 using Serilog;
 
-namespace immersed.dive.shop.application
+namespace immersed.dive.shop.application;
+
+public class EventService : IEventService
 {
-    public class EventService : IEventService
+    private readonly IDataStore<Event> _eventDataStore;
+    private readonly IEventParticipantService _eventParticipantService;
+    private readonly IEventDateFilterBuilder _eventDateFilterBuilder;
+    private readonly ILogger _logger;
+
+    public EventService(IDataStore<Event> eventDataStore, IEventParticipantService eventParticipantService, IEventDateFilterBuilder eventDateFilterBuilder, ILogger logger)
     {
-        private readonly IDataStore<Event> _eventDataStore;
-        private readonly IEventParticipantService _eventParticipantService;
-        private readonly IEventDateFilterBuilder _eventDateFilterBuilder;
-        private readonly ILogger _logger;
+        _eventDataStore = eventDataStore;
+        _eventParticipantService = eventParticipantService;
+        _eventDateFilterBuilder = eventDateFilterBuilder;
+        _logger = logger;
+    }
 
-        public EventService(IDataStore<Event> eventDataStore, IEventParticipantService eventParticipantService, IEventDateFilterBuilder eventDateFilterBuilder, ILogger logger)
+    public async Task<EventParticipant> GetEventParticipant(Guid eventId, Guid eventParticipantId)
+    {
+        var @event = await _eventDataStore.MatchAsync(new GetEventCriteria(eventId));
+
+        var theEvent = @event.FirstOrDefault();
+
+        if (theEvent == null)
         {
-            _eventDataStore = eventDataStore;
-            _eventParticipantService = eventParticipantService;
-            _eventDateFilterBuilder = eventDateFilterBuilder;
-            _logger = logger;
+            _logger.Warning("{class}:{action}-{message}-{eventId}", nameof(CourseService), nameof(GetEventParticipant), "EventNotFound", eventId);
+            return null;
         }
 
-        public async Task<EventParticipant> GetEventParticipant(Guid eventId, Guid eventParticipantId)
+        var result = await _eventParticipantService.GetParticipant(eventParticipantId);
+
+        return result;
+    }
+
+    public async Task<Guid> AddParticipant(Guid eventId, Guid personId)
+    {
+        var @event = (await _eventDataStore.MatchAsync(new GetEventCriteria(eventId))).FirstOrDefault();
+
+        if (@event == null)
         {
-            var @event = await _eventDataStore.MatchAsync(new GetEventCriteria(eventId));
-
-            var theEvent = @event.FirstOrDefault();
-
-            if (theEvent == null)
-            {
-                _logger.Warning("{class}:{action}-{message}-{eventId}", nameof(CourseService), nameof(GetEventParticipant), "EventNotFound", eventId);
-                return null;
-            }
-
-            var result = await _eventParticipantService.GetParticipant(eventParticipantId);
-
-            return result;
+            _logger.Warning("{class}:{action}-{message}-{eventId}", nameof(CourseService), nameof(GetEventParticipant), "EventNotFound", eventId);
+            return Guid.Empty;
         }
 
-        public async Task<Guid> AddParticipant(Guid eventId, Guid personId)
+        var eventParticipant = new EventParticipant
         {
-            var @event = (await _eventDataStore.MatchAsync(new GetEventCriteria(eventId))).FirstOrDefault();
+            EventId = eventId,
+            ParticipantId = personId,
+            Live = true,
+            DateCreated = DateTime.UtcNow
+        };
 
-            if (@event == null)
-            {
-                _logger.Warning("{class}:{action}-{message}-{eventId}", nameof(CourseService), nameof(GetEventParticipant), "EventNotFound", eventId);
-                return Guid.Empty;
-            }
+        @event.Participants.Add(eventParticipant);
 
-            var eventParticipant = new EventParticipant
-            {
-                EventId = eventId,
-                ParticipantId = personId,
-                Live = true,
-                DateCreated = DateTime.UtcNow
-            };
+        var result = await _eventDataStore.UpdateAsync(@event);
 
-            @event.Participants.Add(eventParticipant);
+        return eventParticipant.Id;
+    }
 
-            var result = await _eventDataStore.UpdateAsync(@event);
+    public async Task<List<model.Person>> GetParticipants(Guid eventId)
+    {
+        var result = await _eventParticipantService.GetParticipants(eventId);
 
-            return eventParticipant.Id;
-        }
+        return result;
+    }
 
-        public async Task<List<model.Person>> GetParticipants(Guid eventId)
-        {
-            var result = await _eventParticipantService.GetParticipants(eventId);
+    public async Task Add(Event @event)
+    {
+        await _eventDataStore.AddAsync(@event);
+    }
 
-            return result;
-        }
+    public async Task<Event> Get(Guid eventId)
+    {
+        return await _eventDataStore.FindAsync(c => c.Id == eventId);
+    }
 
-        public async Task Add(Event @event)
-        {
-            await _eventDataStore.AddAsync(@event);
-        }
+    public async Task<IList<Event>> GetAllEvents()
+    {
+        return await _eventDataStore.GetAllAsync();
+    }
 
-        public async Task<Event> Get(Guid eventId)
-        {
-            return await _eventDataStore.FindAsync(c => c.Id == eventId);
-        }
+    public async Task<IList<Event>> GetFilteredEvents(EventFilterParams eventFilterParams)
+    {
+        var dateCriteria = _eventDateFilterBuilder.GetDateCriteria(eventFilterParams.calendar);
 
-        public async Task<IList<Event>> GetAllEvents()
-        {
-            return await _eventDataStore.GetAllAsync();
-        }
-
-        public async Task<IList<Event>> GetFilteredEvents(EventFilterParams eventFilterParams)
-        {
-            var dateCriteria = _eventDateFilterBuilder.GetDateCriteria(eventFilterParams.calendar);
-
-            return await _eventDataStore.MatchAsync(new GetFilteredEventsCriteria(eventFilterParams, dateCriteria));
-        }
+        return await _eventDataStore.MatchAsync(new GetFilteredEventsCriteria(eventFilterParams, dateCriteria));
     }
 }

@@ -3,107 +3,106 @@ using immersed.dive.shop.domain.interfaces;
 using immersed.dive.shop.model;
 using immersed.dive.shop.model.FilterParams;
 
-namespace immersed.dive.shop.repository.Criteria
+namespace immersed.dive.shop.repository.Criteria;
+
+public class EventDateFilterBuilder : IEventDateFilterBuilder
 {
-    public class EventDateFilterBuilder : IEventDateFilterBuilder
+    private readonly IDateTimeProvider _dateTimeProvider;
+
+    public EventDateFilterBuilder(IDateTimeProvider dateTimeProvider)
     {
-        private readonly IDateTimeProvider _dateTimeProvider;
+        _dateTimeProvider = dateTimeProvider;
+    }
 
-        public EventDateFilterBuilder(IDateTimeProvider dateTimeProvider)
+    public DateSpan GetDateCriteria(EventCalendarEnum filter)
+    {
+        DateTime utcDateTimeNow = _dateTimeProvider.UtcNow;
+
+        switch (filter)
         {
-            _dateTimeProvider = dateTimeProvider;
-        }
-
-        public DateSpan GetDateCriteria(EventCalendarEnum filter)
-        {
-            DateTime utcDateTimeNow = _dateTimeProvider.UtcNow;
-
-            switch (filter)
+            case EventCalendarEnum.ThisWeek:
             {
-                case EventCalendarEnum.ThisWeek:
-                    {
-                        int numberDaysLeftInWeek = WholeDaysLeftInCurrentWeek();
-                        var endOfWeekDate = utcDateTimeNow.AddDays(numberDaysLeftInWeek);
-                        return new DateSpan
-                        {
-                            StartDate = _dateTimeProvider.UtcNow,
-                            EndDate = endOfWeekDate
-                        };
-                    }
-                case EventCalendarEnum.ComingWeek:
-                    {
-                        return new DateSpan
-                        {
-                            StartDate = utcDateTimeNow,
-                            EndDate = utcDateTimeNow.AddDays(7)
-                        };
-                    }
-                case EventCalendarEnum.NextWeek:
-                    {
-                        int numberDaysLeftInWeek = WholeDaysLeftInCurrentWeek();
-
-                        return new DateSpan
-                        {
-                            StartDate = utcDateTimeNow.AddDays(numberDaysLeftInWeek+1),
-                            EndDate = utcDateTimeNow.AddDays(numberDaysLeftInWeek).AddDays(7)
-                        };
-                    }
-                case EventCalendarEnum.ThisMonth:
-                    {
-                        int daysLeftInMonth = DaysLeftInMonth();
-                        return new DateSpan
-                        {
-                            StartDate = utcDateTimeNow,
-                            EndDate = utcDateTimeNow.AddDays(daysLeftInMonth)
-                        };
-                    }
-                case EventCalendarEnum.ComingMonth:
-                    {
-                        int daysLeftInMonth = DaysLeftInMonth();
-                        return new DateSpan
-                        {
-                            StartDate = utcDateTimeNow,
-                            EndDate = utcDateTimeNow.AddDays(30)
-                        };
-                    }
-                case EventCalendarEnum.NextMonth:
-                    {
-                        var startOfNextMonth = new DateTime(utcDateTimeNow.AddMonths(1).Year, utcDateTimeNow.AddMonths(1).Month, 1);
-                        return new DateSpan
-                        {
-                            StartDate = startOfNextMonth,
-                            EndDate = startOfNextMonth.AddMonths(1).AddDays(-1)
-                        };
-                    }
-                default:
-                    return new DateSpan
-                    {
-                        StartDate = utcDateTimeNow.AddYears(-100),
-                        EndDate = utcDateTimeNow.AddYears(10)
-                    };
+                int numberDaysLeftInWeek = WholeDaysLeftInCurrentWeek();
+                var endOfWeekDate = utcDateTimeNow.AddDays(numberDaysLeftInWeek);
+                return new DateSpan
+                {
+                    StartDate = _dateTimeProvider.UtcNow,
+                    EndDate = endOfWeekDate
+                };
             }
-        }
-
-        private int WholeDaysLeftInCurrentWeek()
-        {
-            var dayOfWeekNowAdjusted = (_dateTimeProvider.UtcNow.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)_dateTimeProvider.UtcNow.DayOfWeek - 1);
-
-            if (dayOfWeekNowAdjusted == 7)
+            case EventCalendarEnum.ComingWeek:
             {
-                return 0;
+                return new DateSpan
+                {
+                    StartDate = utcDateTimeNow,
+                    EndDate = utcDateTimeNow.AddDays(7)
+                };
             }
-            else
+            case EventCalendarEnum.NextWeek:
             {
-                return 7-(dayOfWeekNowAdjusted + 1);
+                int numberDaysLeftInWeek = WholeDaysLeftInCurrentWeek();
+
+                return new DateSpan
+                {
+                    StartDate = utcDateTimeNow.AddDays(numberDaysLeftInWeek+1),
+                    EndDate = utcDateTimeNow.AddDays(numberDaysLeftInWeek).AddDays(7)
+                };
             }
+            case EventCalendarEnum.ThisMonth:
+            {
+                int daysLeftInMonth = DaysLeftInMonth();
+                return new DateSpan
+                {
+                    StartDate = utcDateTimeNow,
+                    EndDate = utcDateTimeNow.AddDays(daysLeftInMonth)
+                };
+            }
+            case EventCalendarEnum.ComingMonth:
+            {
+                int daysLeftInMonth = DaysLeftInMonth();
+                return new DateSpan
+                {
+                    StartDate = utcDateTimeNow,
+                    EndDate = utcDateTimeNow.AddDays(30)
+                };
+            }
+            case EventCalendarEnum.NextMonth:
+            {
+                var startOfNextMonth = new DateTime(utcDateTimeNow.AddMonths(1).Year, utcDateTimeNow.AddMonths(1).Month, 1);
+                return new DateSpan
+                {
+                    StartDate = startOfNextMonth,
+                    EndDate = startOfNextMonth.AddMonths(1).AddDays(-1)
+                };
+            }
+            default:
+                return new DateSpan
+                {
+                    StartDate = utcDateTimeNow.AddYears(-100),
+                    EndDate = utcDateTimeNow.AddYears(10)
+                };
         }
+    }
 
-        private int DaysLeftInMonth()
+    private int WholeDaysLeftInCurrentWeek()
+    {
+        var dayOfWeekNowAdjusted = (_dateTimeProvider.UtcNow.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)_dateTimeProvider.UtcNow.DayOfWeek - 1);
+
+        if (dayOfWeekNowAdjusted == 7)
         {
-            int currentDay = _dateTimeProvider.UtcNow.Day;
-            int daysInMonth = DateTime.DaysInMonth(_dateTimeProvider.UtcNow.Year, _dateTimeProvider.UtcNow.Month);
-
-            return daysInMonth - currentDay;
+            return 0;
         }
+        else
+        {
+            return 7-(dayOfWeekNowAdjusted + 1);
+        }
+    }
+
+    private int DaysLeftInMonth()
+    {
+        int currentDay = _dateTimeProvider.UtcNow.Day;
+        int daysInMonth = DateTime.DaysInMonth(_dateTimeProvider.UtcNow.Year, _dateTimeProvider.UtcNow.Month);
+
+        return daysInMonth - currentDay;
     }
 }

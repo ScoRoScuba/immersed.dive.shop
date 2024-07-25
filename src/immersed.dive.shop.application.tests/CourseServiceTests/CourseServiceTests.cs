@@ -11,79 +11,78 @@ using Moq;
 using Serilog;
 using Xunit;
 
-namespace immersed.dive.shop.application.tests.CourseServiceTests
+namespace immersed.dive.shop.application.tests.CourseServiceTests;
+
+public class CourseServiceTests
 {
-    public class CourseServiceTests
+    private Mock<ILogger> mockLogger = new Mock<ILogger>();
+
+    [Fact]
+    public async Task GetAllReturnsAllCourses()
     {
-        private Mock<ILogger> mockLogger = new Mock<ILogger>();
+        var mockDataStore = new Mock<IDataStore<Course>>();
 
-        [Fact]
-        public async Task GetAllReturnsAllCourses()
+        mockDataStore.Setup( d=>d.GetAllAsync()).ReturnsAsync(()=> new List<Course>
         {
-            var mockDataStore = new Mock<IDataStore<Course>>();
+            new(),
+            new(),
+            new()
+        });
 
-            mockDataStore.Setup( d=>d.GetAllAsync()).ReturnsAsync(()=> new List<Course>
-            {
-                new(),
-                new(),
-                new()
-            });
+        var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
 
-            var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
+        var result = await courseService.GetAll();
 
-            var result = await courseService.GetAll();
+        Assert.NotEmpty(result);
+        Assert.True(result.Count == 3);
+    }
 
-            Assert.NotEmpty(result);
-            Assert.True(result.Count == 3);
-        }
+    [Fact]
+    public async Task GetByIdReturnsCourseThatExists()
+    {
+        var mockDataStore = new Mock<IDataStore<Course>>();
 
-        [Fact]
-        public async Task GetByIdReturnsCourseThatExists()
+        var candidateGuid = Guid.NewGuid();
+
+        var list = new List<Course>
         {
-            var mockDataStore = new Mock<IDataStore<Course>>();
+            new Course() {Id = candidateGuid},
+            new Course(),
+            new Course()
+        };
 
-            var candidateGuid = Guid.NewGuid();
+        mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(
+            (Expression<Func<Course, bool>> predicate) => list.AsQueryable().Single(predicate));
 
-            var list = new List<Course>
-            {
-                new Course() {Id = candidateGuid},
-                new Course(),
-                new Course()
-            };
+        var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
 
-            mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(
-                (Expression<Func<Course, bool>> predicate) => list.AsQueryable().Single(predicate));
+        var result = await courseService.Get(candidateGuid);
 
-            var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
+        Assert.NotNull(result);
+        Assert.True( result.Id == candidateGuid);
+    }
 
-            var result = await courseService.Get(candidateGuid);
+    [Fact]
+    public async Task GetByIdReturnsCourseDoesNotExist()
+    {
+        var mockDataStore = new Mock<IDataStore<Course>>();
 
-            Assert.NotNull(result);
-            Assert.True( result.Id == candidateGuid);
-        }
+        var candidateGuid = Guid.NewGuid();
 
-        [Fact]
-        public async Task GetByIdReturnsCourseDoesNotExist()
+        var list = new List<Course>
         {
-            var mockDataStore = new Mock<IDataStore<Course>>();
+            new Course() {Id = candidateGuid},
+            new Course(),
+            new Course()
+        };
 
-            var candidateGuid = Guid.NewGuid();
+        mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(
+            (Expression<Func<Course, bool>> predicate) => list.AsQueryable().SingleOrDefault(predicate));
 
-            var list = new List<Course>
-            {
-                new Course() {Id = candidateGuid},
-                new Course(),
-                new Course()
-            };
+        var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
 
-            mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(
-                (Expression<Func<Course, bool>> predicate) => list.AsQueryable().SingleOrDefault(predicate));
+        var result = await courseService.Get(Guid.NewGuid());
 
-            var courseService = new CourseService(mockDataStore.Object, mockLogger.Object);
-
-            var result = await courseService.Get(Guid.NewGuid());
-
-            Assert.Null(result);
-        }
+        Assert.Null(result);
     }
 }

@@ -1,25 +1,24 @@
 using System;
 using System.Collections.Generic;
 
-namespace immersed.dive.shop.model
+namespace immersed.dive.shop.model;
+
+public class Course : IEntity
 {
-    public class Course : IEntity
+    public Course()
     {
-        public Course()
-        {
-            Id = Guid.NewGuid();
+        Id = Guid.NewGuid();
 
-            Events = new List<Event>();
-        }
-
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        public virtual List<Event> Events{ get; set; }
-
-        public DateTime DateCreated { get; set; }
-        public DateTime LastUpdated { get; set; }
-        public bool Live { get; set; }
+        Events = new List<Event>();
     }
+
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+
+    public virtual List<Event> Events{ get; set; }
+
+    public DateTime DateCreated { get; set; }
+    public DateTime LastUpdated { get; set; }
+    public bool Live { get; set; }
 }

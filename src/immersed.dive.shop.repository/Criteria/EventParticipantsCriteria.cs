@@ -6,24 +6,23 @@ using immersed.dive.shop.domain.interfaces.Data;
 using immersed.dive.shop.model;
 using Microsoft.EntityFrameworkCore;
 
-namespace immersed.dive.shop.repository.Criteria
+namespace immersed.dive.shop.repository.Criteria;
+
+public class EventParticipantsCriteria : ICriteria<EventParticipant>
 {
-    public class EventParticipantsCriteria : ICriteria<EventParticipant>
+    private readonly Guid _eventId;
+
+    public EventParticipantsCriteria(Guid eventId )
     {
-        private readonly Guid _eventId;
+        _eventId = eventId;
+    }
 
-        public EventParticipantsCriteria(Guid eventId )
-        {
-            _eventId = eventId;
-        }
-
-        public async Task<IList<EventParticipant>> MatchQueryFromAsync(IQueryable<EventParticipant> ds)
-        {
-            return  await ds
-                .Include(p => p.Participant)
-                .Include( e =>e.Event)
-                .Include(c=>c.Event.Course)
-                .Where(ep => ep.EventId == _eventId).ToListAsync();
-        }
+    public async Task<IList<EventParticipant>> MatchQueryFromAsync(IQueryable<EventParticipant> ds)
+    {
+        return  await ds
+            .Include(p => p.Participant)
+            .Include( e =>e.Event)
+            .Include(c=>c.Event.Course)
+            .Where(ep => ep.EventId == _eventId).ToListAsync();
     }
 }

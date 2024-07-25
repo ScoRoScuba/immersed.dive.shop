@@ -1,8 +1,7 @@
-﻿namespace immersed.dive.shop.model.FilterParams
+﻿namespace immersed.dive.shop.model.FilterParams;
+
+public class EventFilterParams
 {
-    public class EventFilterParams
-    {
-        public EventCalendarEnum calendar { get; set; }
-        public string course { get; set; }
-    }
+    public EventCalendarEnum calendar { get; set; }
+    public string course { get; set; }
 }

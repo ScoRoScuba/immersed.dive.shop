@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using immersed.dive.shop.domain.interfaces;
 
-namespace immersed.dive.shop.application
+namespace immersed.dive.shop.application;
+
+public class DateTimeProvider : IDateTimeProvider
 {
-    public class DateTimeProvider : IDateTimeProvider
-    {
-        public DateTime Now => DateTime.Now;
-        public DateTime UtcNow => DateTime.UtcNow;
-        public  DateTime Epoch => DateTime.UnixEpoch;
-    }
+    public DateTime Now => DateTime.Now;
+    public DateTime UtcNow => DateTime.UtcNow;
+    public  DateTime Epoch => DateTime.UnixEpoch;
 }

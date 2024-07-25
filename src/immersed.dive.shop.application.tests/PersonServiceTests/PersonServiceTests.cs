@@ -9,80 +9,78 @@ using Moq;
 using Serilog;
 using Xunit;
 
-namespace immersed.dive.shop.application.tests.PersonServiceTests
+namespace immersed.dive.shop.application.tests.PersonServiceTests;
+
+public class PersonServiceTests
 {
+    private Mock<ILogger> mockLogger = new Mock<ILogger>();
 
-    public class PersonServiceTests
+    [Fact]
+    public async Task GetAllReturnsAllPersons()
     {
-        private Mock<ILogger> mockLogger = new Mock<ILogger>();
+        var mockDataStore = new Mock<IDataStore<model.Person>>();
 
-        [Fact]
-        public async Task GetAllReturnsAllPersons()
+        mockDataStore.Setup(d => d.GetAllAsync()).ReturnsAsync(() => new List<model.Person>
         {
-            var mockDataStore = new Mock<IDataStore<model.Person>>();
+            new model.Person(),
+            new model.Person(),
+            new model.Person()
+        });
 
-            mockDataStore.Setup(d => d.GetAllAsync()).ReturnsAsync(() => new List<model.Person>
-            {
-                new model.Person(),
-                new model.Person(),
-                new model.Person()
-            });
+        var courseService = new PersonService(mockDataStore.Object, mockLogger.Object);
 
-            var courseService = new PersonService(mockDataStore.Object, mockLogger.Object);
+        var result = await courseService.GetAll();
 
-            var result = await courseService.GetAll();
+        Assert.NotEmpty(result);
+        Assert.True(result.Count == 3);
+    }
 
-            Assert.NotEmpty(result);
-            Assert.True(result.Count == 3);
-        }
+    [Fact]
+    public async Task GetByIdReturnsPersonThatExists()
+    {
+        var mockDataStore = new Mock<IDataStore<model.Person>>();
 
-        [Fact]
-        public async Task GetByIdReturnsPersonThatExists()
+        var candidateGuid = Guid.NewGuid();
+
+        var list = new List<model.Person>
         {
-            var mockDataStore = new Mock<IDataStore<model.Person>>();
+            new model.Person() {Id = candidateGuid},
+            new model.Person(),
+            new model.Person()
+        };
 
-            var candidateGuid = Guid.NewGuid();
+        mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<model.Person, bool>>>())).ReturnsAsync(
+            (Expression<Func<model.Person, bool>> predicate) => list.AsQueryable().Single(predicate));
 
-            var list = new List<model.Person>
-            {
-                new model.Person() {Id = candidateGuid},
-                new model.Person(),
-                new model.Person()
-            };
+        var personService = new PersonService(mockDataStore.Object, mockLogger.Object);
 
-            mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<model.Person, bool>>>())).ReturnsAsync(
-                (Expression<Func<model.Person, bool>> predicate) => list.AsQueryable().Single(predicate));
+        var result = await personService.Get(candidateGuid);
 
-            var personService = new PersonService(mockDataStore.Object, mockLogger.Object);
+        Assert.NotNull(result);
+        Assert.True(result.Id == candidateGuid);
+    }
 
-            var result = await personService.Get(candidateGuid);
+    [Fact]
+    public async Task GetByIdReturnsCourseDoesNotExist()
+    {
+        var mockDataStore = new Mock<IDataStore<model.Person>>();
 
-            Assert.NotNull(result);
-            Assert.True(result.Id == candidateGuid);
-        }
+        var candidateGuid = Guid.NewGuid();
 
-        [Fact]
-        public async Task GetByIdReturnsCourseDoesNotExist()
+        var list = new List<model.Person>
         {
-            var mockDataStore = new Mock<IDataStore<model.Person>>();
+            new model.Person() {Id = candidateGuid},
+            new model.Person(),
+            new model.Person()
+        };
 
-            var candidateGuid = Guid.NewGuid();
+        mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<model.Person, bool>>>())).ReturnsAsync(
+            (Expression<Func<model.Person, bool>> predicate) => list.AsQueryable().SingleOrDefault(predicate));
 
-            var list = new List<model.Person>
-            {
-                new model.Person() {Id = candidateGuid},
-                new model.Person(),
-                new model.Person()
-            };
+        var personService = new PersonService(mockDataStore.Object, mockLogger.Object);
 
-            mockDataStore.Setup(d => d.FindAsync(It.IsAny<Expression<Func<model.Person, bool>>>())).ReturnsAsync(
-                (Expression<Func<model.Person, bool>> predicate) => list.AsQueryable().SingleOrDefault(predicate));
+        var result = await personService.Get(Guid.NewGuid());
 
-            var personService = new PersonService(mockDataStore.Object, mockLogger.Object);
-
-            var result = await personService.Get(Guid.NewGuid());
-
-            Assert.Null(result);
-        }
+        Assert.Null(result);
     }
 }

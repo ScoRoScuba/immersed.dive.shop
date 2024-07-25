@@ -1,7 +1,6 @@
-﻿namespace immersed.dive.shop.model
+﻿namespace immersed.dive.shop.model;
+
+public enum Sex
 {
-    public enum Sex
-    {
-        M, F, I
-    }
+    M, F, I
 }

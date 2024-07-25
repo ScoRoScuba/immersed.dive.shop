@@ -12,36 +12,35 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using ILogger = Serilog.ILogger;
 
-namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories
+namespace immersed.diveshop.intergration.tests.webapi.WebApplicationFactories;
+
+public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup: class
 {
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup: class
+    private InMemoryDatabaseRoot _databaseRoot;
+    private InMemoryDatabaseRoot DatabaseRoot => _databaseRoot ??= new InMemoryDatabaseRoot();
+
+    protected override IHostBuilder CreateHostBuilder()
     {
-        private InMemoryDatabaseRoot _databaseRoot;
-        private InMemoryDatabaseRoot DatabaseRoot => _databaseRoot ??= new InMemoryDatabaseRoot();
-
-        protected override IHostBuilder CreateHostBuilder()
-        {
-            return Host.CreateDefaultBuilder()
-                .ConfigureWebHostDefaults(x =>
-                {
-                    x.UseStartup<TStartup>().UseTestServer();
-                });
-        }
-
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices(services =>
+        return Host.CreateDefaultBuilder()
+            .ConfigureWebHostDefaults(x =>
             {
-                services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-                
-                services.AddDbContext<DiveShopDBContext>(options =>
-                {
-                    options.UseLazyLoadingProxies();
-                    options.UseInMemoryDatabase("InMemoryAppDb", DatabaseRoot);
-                });                 
-
-                services.AddSingleton(new Mock<ILogger>().Object);
+                x.UseStartup<TStartup>().UseTestServer();
             });
-        }
+    }
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.ConfigureServices(services =>
+        {
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+                
+            services.AddDbContext<DiveShopDBContext>(options =>
+            {
+                options.UseLazyLoadingProxies();
+                options.UseInMemoryDatabase("InMemoryAppDb", DatabaseRoot);
+            });                 
+
+            services.AddSingleton(new Mock<ILogger>().Object);
+        });
     }
 }
