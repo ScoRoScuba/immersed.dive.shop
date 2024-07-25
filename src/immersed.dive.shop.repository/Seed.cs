@@ -9,7 +9,7 @@ namespace immersed.dive.shop.repository;
 
 public static class Seed
 {
-    public static async Task SeedData(this IServiceProvider servicesProvider, DiveShopDBContext context)
+    public static async Task SeedData(DiveShopDBContext context)
     {
         await context.Database.ExecuteSqlRawAsync("DELETE FROM [EventDates]");
         await context.Database.ExecuteSqlRawAsync("DELETE FROM [EventParticipants]");

@@ -56,4 +56,8 @@
     <ProjectReference Include="..\immsersed.dive.shop.domain.interfaces\immersed.dive.shop.domain.interfaces.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Middleware\" />
+  </ItemGroup>
+
 </Project>

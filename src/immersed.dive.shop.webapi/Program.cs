@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using immersed.dive.shop.webapi.Extensions.Startup;
+using immersed.dive.shop.webapi.Infrastructure.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +56,8 @@ builder.Services.AddCors(opt =>
 
 builder.Services.AddHealthChecks();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
@@ -76,6 +79,8 @@ app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseExceptionHandler();
 
 await DataStore.RunMigrations( app.Services, args);
 

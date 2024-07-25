@@ -18,7 +18,14 @@ public static class DataStore
             var connectionString = configuration.GetConnectionString("DefaultConnectionString");
             options.UseLazyLoadingProxies();
             options.UseSqlServer(connectionString);
-        });            
+        });   
+        
+        services.AddDbContext<DiveShopDBMigrationsContext>(options =>
+        {
+            var connectionString = configuration.GetConnectionString("MigrationsConnectionString");
+            options.UseLazyLoadingProxies();
+            options.UseSqlServer(connectionString);
+        });        
     }
 
     public static async Task RunMigrations(IServiceProvider appServices, string[] args)
@@ -29,14 +36,15 @@ public static class DataStore
 
         try
         {
-            var context = services.GetRequiredService<DiveShopDBContext>();
+            var context = services.GetRequiredService<DiveShopDBMigrationsContext>();
 
             await context.Database.MigrateAsync();
 
             if (args.Length > 0)
             {
                 if(args.Contains("reseed")){
-                    await services.SeedData(context);
+                    var seedContext = services.GetRequiredService<DiveShopDBContext>();
+                    await Seed.SeedData(seedContext);
                 }
             }
         }

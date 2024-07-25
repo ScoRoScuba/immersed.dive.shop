@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace immersed.dive.shop.repository;
 
-public class DiveShopDBContext : DbContext
+public class DiveShopDBMigrationsContext : DbContext
 {
-    public DiveShopDBContext(DbContextOptions<DiveShopDBContext> options) : base(options)
+    public DiveShopDBMigrationsContext(DbContextOptions<DiveShopDBMigrationsContext> options) : base(options)
     {
             
     }
