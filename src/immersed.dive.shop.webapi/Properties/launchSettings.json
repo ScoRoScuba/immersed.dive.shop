@@ -19,6 +19,16 @@
     },
     "immersed.dive.shop.webapi": {
       "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    },
+    "immersed.dive.shop.webapi.reseed": {
+      "commandName": "Project",
       "commandLineArgs": "reseed",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -28,6 +38,7 @@
       "dotnetRunMessages": "true",
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
+    
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
