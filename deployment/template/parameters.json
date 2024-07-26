@@ -1,0 +1,71 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscriptionId": {
+            "value": "26a6b5ea-142d-487a-b61b-852ba8bcbdfb"
+        },
+        "name": {
+            "value": "immersed-dive-shop"
+        },
+        "location": {
+            "value": "uksouth"
+        },
+        "environmentId": {
+            "value": "/subscriptions/26a6b5ea-142d-487a-b61b-852ba8bcbdfb/resourceGroups/DefaultResourceGroup-SUK/providers/Microsoft.App/managedEnvironments/managedEnvironment-DefaultResource-a1d8"
+        },
+        "containers": {
+            "value": [
+                {
+                    "name": "immersed-dive-shop",
+                    "image": "ghcr.io/scoroscuba/immersed.dive.shop:latest",
+                    "command": [],
+                    "resources": {
+                        "cpu": 0.5,
+                        "memory": "1Gi"
+                    }
+                }
+            ]
+        },
+        "registries": {
+            "value": [
+                {
+                    "server": "ghcr.io",
+                    "username": "scoroscuba",
+                    "passwordSecretRef": "reg-pswd-7db77edb-aa11"
+                }
+            ]
+        },
+        "secrets": {
+            "value": {
+                "arrayValue": [
+                    {
+                        "name": "reg-pswd-7db77edb-aa11",
+                        "value": "**********************"
+                    }
+                ]
+            }
+        },
+        "ingress": {
+            "value": {
+                "external": true,
+                "transport": "Http2",
+                "allowInsecure": true,
+                "targetPort": 8080,
+                "stickySessions": {
+                    "affinity": "sticky"
+                },
+                "additionalPortMappings": []
+            }
+        },
+        "environmentName": {
+            "value": "managedEnvironment-DefaultResource-a1d8"
+        },
+        "workspaceName": {
+            "value": "workspacedefaultresourcegroupsuk8e93"
+        },
+        "workspaceLocation": {
+            "value": "uksouth"
+        }
+    }
+}

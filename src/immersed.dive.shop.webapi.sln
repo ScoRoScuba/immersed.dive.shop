@@ -31,6 +31,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{7F
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{30244FEF-439E-436D-A7F1-3DC7854B2E14}"
+	ProjectSection(SolutionItems) = preProject
+		..\deployment\template\parameters.json = ..\deployment\template\parameters.json
+		..\deployment\template\template.json = ..\deployment\template\template.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +89,7 @@ Global
 		{A32F2422-BAD9-41BE-B9FA-99401FECB06D} = {973089DA-2BAD-4D5C-9EEA-E2A2419F3D9D}
 		{8E362D11-8D4D-4C18-836F-1193CA55935F} = {973089DA-2BAD-4D5C-9EEA-E2A2419F3D9D}
 		{0DF5C00C-3645-4C05-AF23-62A8DA30CFB7} = {973089DA-2BAD-4D5C-9EEA-E2A2419F3D9D}
+		{30244FEF-439E-436D-A7F1-3DC7854B2E14} = {7F50D7A8-D189-4D70-A483-22D66BFE62EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85999018-9D55-4E9B-928F-022C5B665804}
