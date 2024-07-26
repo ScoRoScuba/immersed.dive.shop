@@ -19,6 +19,6 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'GitHub Docker Registry'
-        repository: 'ScoRoScuba/immersed.dive.shop:latest'
+        repository: 'ScoRoScuba/immersed.dive.shop'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
